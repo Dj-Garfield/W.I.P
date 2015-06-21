@@ -1,0 +1,51 @@
+#!/bin/sh
+# =============================================================
+# = filtre_amazonaws.sh                                       =
+# = AntiBot amazonaws                                         =
+# = VIA .htaccess                                             =
+# =  IP du cloud amazon e2c                                   =
+# =                                                           =
+# =============================================================
+# telecharger la liste dans un repertoire accessible en ecriture
+# Vu le nombre de bot hebergé chez amazonaws cela devient facultatif
+#
+# dans ce repertoire executer :
+# sort -n | awk '/^[1-9]/ { print "Deny from", $1 }' > /var/www/html/.htaccess
+# Cela va creer une premiere liste de Directives Deny
+# Pour inclure les futures nouvelles adresse amazonaws c'est ce qui suit ...
+
+# Cherches les occurences de amazonaws
+cat /var/log/apache2/access.log | grep amazon > ip_amazonaws.txt		 
+
+# je veux uniquement les requetes abouties => 200
+cat ip_amazonaws.txt | grep '"GET / HTTP/1.1" 200' > amazon-non-blok.txt 
+
+# Recup adresse IP
+# cut -d - -f2,3,4,5 amazon-non-blok.txt > ip_non_blok.txt
+cut -d - -f2,3,4 amazon-non-blok.txt > ip_non_blok.txt		 
+
+# Elimination des scories
+# cut -d . -f1 ip_non_blok.txt > ip_2_blok.txt				 
+
+# Il faut trier les lignes pour l'action suivante
+# sort ip_2_blok.txt > ip_sorted.txt
+sort ip_non_blok.txt > ip_sorted.txt               			 
+
+# On elimine les doublons
+# Ne peut etre fait que si la liste est triée
+uniq ip_sorted.txt > ip_list_final.txt					 
+
+# Remplacer les "-" par des "." car le fichier log avec des "-"
+# -i pour ecrire dans le fichier source directement
+sed -i 's/-/./g' ip_list_final.txt					 
+
+# On trie ET on genere la liste de directives
+# sort ip_list_final.txt -n | awk '/^[1-9]/ { print "Deny from",$1".0/24"}' > ip2include.txt 
+# cat ip2include.txt >> /var/www/html/.htaccess
+
+# Hint : on pourrait piper les deux dernieres commandes :
+sort ip_list_final.txt -n | awk '/^[1-9]/ { print "Deny from",$1".0/24"}' >> /var/www/html/.htaccess
+sort /var/www/html/.htaccess > /var/www/html/.htaccess.tmp
+uniq /var/www/html/.htaccess.tmp /var/www/html/.htaccess
+
+
