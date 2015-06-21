@@ -1,11 +1,11 @@
 #!/bin/sh
-# =============================================================
-# = filtre_amazonaws.sh                                       =
-# = AntiBot amazonaws                                         =
-# = VIA .htaccess                                             =
-# =  IP du cloud amazon e2c                                   =
-# =                                                           =
-# =============================================================
+# =======================================================================
+# = filtre_amazonaws.sh                                                 =
+# = AntiBot amazonaws                                                   =
+# = VIA .htaccess                                                       =
+# =  IP du cloud amazon e2c                                             =
+# =  https://github.com/Dj-Garfield/W.I.P/blob/master/amazonaws_ip_list =                                                        =
+# =======================================================================
 # telecharger la liste dans un repertoire accessible en ecriture
 # Vu le nombre de bot hebergé chez amazonaws cela devient facultatif
 #
