@@ -1,0 +1,644 @@
+# =======================================================================
+# = CINELERRA INstallation sur Centos7.6 2019                           =
+# =======================================================================
+
+Version Cnelerra = 7
+
+cinelerra-7-x86_64_trusty
+
+Copy and unpack '64 bit binary....' form http://cinelerra.org/download
+
+Create correct link: sudo ln -s /usr/lib64/libbz2.so /usr/lib64/libbz2.so.1.0
+
+And run ./cinelerra => Unstable sur CENTOS7.6 , import , fichier video : HS, 
+Record : HS
+
+
+
+# =======================================================================
+# = CALCUL IP address to Decimal                                        =
+# =======================================================================
+
+ip2dec () {
+            local a b c d ip=$@
+                IFS=. read -r a b c d <<< "$count"
+                    printf '%d\n' "$((a * 256 ** 3 + b * 256 ** 2 + c * 256 + d))"
+            }
+
+Where $count does the IP address 192.168.1.25 for example.
+
+
+# =======================================================================
+# = CONNAITRE LES USERS D UN GROUPE                                     =
+# =======================================================================
+
+afficher les users d un groupe LDAP
+
+getent group <gid>
+
+Pour un affichage ligne a ligne 
+
+getent group <gid> | sed 's/,/\n/g'
+
+getent group MCC | sed 's/,/\n/g' | grep "olivier"
+
+
+# =======================================================================
+# =           BDD GLPI                                                  =
+# =======================================================================
+
+<?php
+ class DB extends DBmysql {
+                
+ public $dbhost     = 'localhost';
+                
+ public $dbuser     = 'glpiuser';
+                
+ public $dbpassword = 'kuTaquNurE4u';
+                
+ public $dbdefault  = 'glpidb';
+                
+}
+
+
+
+# =======================================================================
+# =           Temp Sensor                                               =
+# =======================================================================
+
+watch sensors
+
+# =======================================================================
+# =      Verifier si Memoire ECC Linux                                  =
+# =======================================================================
+
+dmidecode --type memory
+
+# dmidecode 3.1
+Scanning /dev/mem for entry point.
+SMBIOS 2.7 present.
+
+Handle 0x000A, DMI type 16, 23 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: None
+	Maximum Capacity: 32 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 4
+Handle 0x000E, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x000A
+	Error Information Handle: Not Provided =======> NON ECC
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 4096 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: A1_DIMM1
+	Bank Locator: A1_BANK1
+	Type: DDR3
+	Type Detail: Synchronous Unbuffered (Unregistered)
+	Speed: 1333 MT/s
+	Manufacturer: Kingston        
+	Serial Number: B63C167A  
+	Asset Tag: A1_AssetTagNum1
+	Part Number: 9965525-085.A00LF 
+	Rank: 2
+	Configured Clock Speed: 64216 MT/s
+
+
+
+
+# =======================================================================
+# =      Activer ou DESACTIVER un Repo                                  =
+# =======================================================================
+
+yum-config-manager --enable redhat_7_workstation.repo
+yum-config-manager --disable redhat.rep
+
+Install CentOS SCLo RH Testing repository:
+
+yum install centos-release-scl-rh
+Install php55-php-soap rpm package:
+
+yum --enablerepo=centos-sclo-rh-testing install php55-php-soap
+
+
+# =======================================================================
+# =      OPENGL VERSION                                                 =
+# =======================================================================
+
+CLI :
+=====
+simple 
+glxinfo | grep "OpenGL version"
+
+Etendue
+glxinfo | grep -i "OpenGL version"
+
+pour inclure dans une appli
+===========================
+glxinfo | awk '/OpenGL version/ {print $4}'
+
+
+You can get the information by running following command:
+
+DISPLAY=:0 glxgears -info | grep GL_VERSION
+
+This echos something like:
+
+GL_VERSION    = 3.3.0 NVIDIA 340.93
+
+
+From SSH:
+=========
+Use X-forwarding when ssh-ing. This is enabled with ssh -X.
+
+Without x-forwarding:
+=====================
+
+$ ssh dwd503
+$ glxinfo
+Error: unable to open display
+
+With x-forwarding:
+==================
+
+$ ssh -X dwd503
+$ glxinfo | grep -i opengl
+OpenGL vendor string: NVIDIA Corporation
+OpenGL renderer string: GeForce 8800 GT/PCIe/SSE2
+OpenGL version string: 2.1.2 NVIDIA 310.44
+OpenGL shading language version string: 1.20 NVIDIA via Cg compiler
+OpenGL extensions:
+
+I should note here that this is both the wrong graphics card, and wrong version numbers. ('Wrong' in terms of what you would expect).
+
+Set DISPLAY variable to :0, to allow access to the graphic card s driver from the remote session.
+
+$ ssh -X dwd503
+$ DISPLAY=:0
+$ glxinfo | grep -i opengl
+ OpenGL vendor string: NVIDIA Corporation
+ OpenGL renderer string: GeForce GTX 550 Ti/PCIe/SSE2
+ OpenGL version string: 4.3.0 NVIDIA 310.14
+ OpenGL shading language version string: 4.30 NVIDIA via Cg compiler
+ OpenGL extensions:
+This lists the correct graphics card (the one on the remote computer), as well as the correct version numbers.
+
+# =======================================================================
+# =       FLASH NVIDIA FW                                               =
+# =======================================================================
+
+Flasher le firmware des carte NVIDIA
+
+flashed the BIOS to version C3. Here is a short description on how to do it for people interested :
+- format usb key to MSDOS FAT32
+- download your ROM from techpowerup
+- download the techpowerup nvflash flashing utility for DOS : http://www.techpowerup.com/downloads/2257/nvflash-5-136/
+- download an image of FreeDOS 1.1 that can be live-USBed. 
+- follow the chtaube.eu instructions to copy the image with dd to the usb key
+- copy the flashing utility and the ROM to the FDOS directory of the live USB
+- reboot and go to motherboard BIOS settings
+- make sure Legacy boot is enabled (no UEFI-only boot), then choose the Legacy boot for the USB key (no EFI)
+- it will boot FreeDOS, choose option 4 (no driver loaded)
+- cd FDOS
+- afterwards refer to google on how to use nvflash, in my case :
+
+GTX770B4.ROM is an example
+
+nvflash --list to identify the index of my card (0)
+nvflash --index=0 --save GTX770B4.ROM to backup as GTX770B4.ROM the existing firmware
+nvflash --index=0 --compare GTX770C3.ROM to check its a different firmware but for the good adapter
+nvflash --index=0 -6 GTX770C3.ROM to upload the firware to the card
+
+Trouve sur : https://www.techpowerup.com/vgabios/?architecture=NVIDIA&manufacturer=NVIDIA&page=6
+
+MODEL					DATE				VERSION			Iface	Core/Mem/Boost		Memory
+
+Quadro 4000 	  2048 MB	2011-02-15 00:00:00	70.00.56.00.06	PCI-E	475 / 702			    GDDR5
+Quadro 2000     1024 MB	2011-02-16 00:00:00	70.06.31.02.01	PCI-E	626 / 652			    GDDR5
+Quadro FX 3800 	1024 MB	2009-04-21 00:00:00	62.00.66.00.02	PCI-E	600 / 800			    GDDR3
+Quadro FX 5500 	1024 MB	2007-04-17 00:00:00	5.71.22.56.09	  PCI-E	650 / 505			    DDR2
+Quadro K2000 	  2048 MB	2012-09-13 00:00:00	80.07.64.00.05	PCI-E	954 / 1000			  GDDR5
+Quadro K4000 	  3 	 GB	2012-08-13 00:00:00	80.06.19.00.01	PCI-E	811 / 1404 / 811	GDDR5
+Quadro K5000 	  4 	 GB	2012-08-17 00:00:00	80.04.59.00.18	PCI-E	706 / 1350 / 706	GDDR5
+
+
+# =======================================================================
+# =       WACOM                                                         =
+# =======================================================================
+
+Lister les devices
+
+[root@garfield lchauvin]# xsetwacom list devices
+Wacom Intuos S Pen stylus       	id: 12	type: STYLUS    
+Wacom Intuos S Pen eraser       	id: 13	type: ERASER    
+Wacom Intuos S Pad pad          	id: 14	type: PAD 
+
+[root@garfield lchauvin]# xinput -list
+⎡ Virtual core pointer                    	id=2	[master pointer  (3)]
+⎜   ↳ Virtual core XTEST pointer              	id=4	[slave  pointer  (2)]
+⎜   ↳ DELL DELL USB Laser Mouse               	id=10	[slave  pointer  (2)]
+⎜   ↳ Wacom Intuos S Pen stylus               	id=12	[slave  pointer  (2)]
+⎜   ↳ Wacom Intuos S Pen eraser               	id=13	[slave  pointer  (2)]
+⎜   ↳ Wacom Intuos S Pad pad                  	id=14	[slave  pointer  (2)]
+⎣ Virtual core keyboard                   	id=3	[master keyboard (2)]
+    ↳ Virtual core XTEST keyboard             	id=5	[slave  keyboard (3)]
+    ↳ Power Button                            	id=6	[slave  keyboard (3)]
+    ↳ Power Button                            	id=7	[slave  keyboard (3)]
+    ↳ Lite-On Technology USB Productivity Option Keyboard( has the hub in # 1 )	id=8	[slave  keyboard (3)]
+    ↳ Lite-On Technology USB Productivity Option Keyboard( has the hub in # 1 )	id=9	[slave  keyboard (3)]
+    ↳ HP WMI hotkeys                          	id=11	[slave  keyboard (3)]
+
+
+Affiche les ecrans et sur quels ports ils sont raccordes ( DVI - Display Port - VGA )
+
+[root@garfield lchauvin]# xrandr
+Screen 0: minimum 8 x 8, current 3840 x 1080, maximum 16384 x 16384
+DVI-I-0 disconnected primary (normal left inverted right x axis y axis)
+DVI-I-1 connected 1920x1080+0+0 (normal left inverted right x axis y axis) 531mm x 298mm
+   1920x1080     60.00*+
+   1680x1050     59.95  
+   1600x900      60.00  
+   1280x1024     75.02    60.02  
+   1280x800      59.81  
+   1280x720      60.00  
+   1024x768      75.03    60.00  
+   800x600       75.00    60.32  
+   640x480       75.00    59.94  
+DP-0 disconnected (normal left inverted right x axis y axis)
+DP-1 connected 1920x1080+1920+0 (normal left inverted right x axis y axis) 598mm x 336mm
+   1920x1080     60.00*+
+   1600x900      60.00  
+   1280x1024     75.02    60.02  
+   1152x864      75.00  
+   1024x768      75.03    60.00  
+   800x600       75.00    60.32  
+   640x480       75.00    59.94 
+
+Avec les version 410.73 NVIDIA , il faut remplacer DP-1 ( Display port 1 ) par HEAD-1
+et HEAD-0 pour le display port 0
+
+Pour Limiter l action du stylet a un seul ecran :
+
+[root@garfield lchauvin]# xsetwacom set "nom de la tablette stylus / pad / ou autre" MapToOutput HEAD-0
+
+ou bien 
+
+[root@garfield lchauvin]# xsetwacom set "nom de la tablette stylus / pad / ou autre" MapToOutput HEAD-1
+
+Et regler dans gimp , Edit > Input Devices > 
+
+selectionner WACOM Pad / Pen Eraser / Pen Stylus et les regler a screen si lon veut n utiliser qu un seul ecran .
+
+Une GUI existe il faut installer : 
+
+ 1012  yum install gtk+.x86_64
+ 1016  yum search glade
+ 1017  yum install glade*
+ 1020  yum search pygtk
+ 1021  yum install pygtk*
+ 1024  yum search glfw
+ 1026  yum install glfw.x86_64
+ 1027  python wacom_utility.py
+
+ Pour le cas des tablettes Cintiq avec touch function : 
+
+ xsetwacom --set `xsetwacom --list | grep TOUCH | sed -r "s/.*id: *([0-9]*).*/\1/"` touch off
+
+ cela desactive la fonction touch des Cintiq
+ Autre solution :
+
+ xsetwacom -v --set 'Nom De La Tablette touch' gesture off
+
+ Il faut ensuite creer un script quis sera lance au demarrage et lactiver dans les application au demarrage ou alors :
+
+ First off, you still need to add the new command to your autostart configuration so that it s disabled to start with:
+
+xsetwacom --set `xsetwacom --list | grep TOUCH | cut -c 40-42` touch off
+
+Then try putting the following into a new file: /etc/pm/power.d/99_touchdisable:
+
+#!/bin/bash
+ac_power ()
+{
+    xsetwacom --set `xsetwacom --list | grep TOUCH | cut -c 40-42` touch off
+}
+
+battery_power ()
+{
+    xsetwacom --set `xsetwacom --list | grep TOUCH | cut -c 40-42` touch off
+}
+Then run sudo chmod 755 /etc/pm/power.d/99_touchdisable
+
+Restart your tablet and try unplugging/plugging in your tablet.
+
+If it doesn t work, check to see if you have different power profiles enabled. If it still isn t working, run sudo apt-get install pm-utils and try running sudo pm-powersave <true/false> to get it to run the script.
+
+pour afficher d autre sinfos :
+
+xsetwacom --list | grep TOUCH | cut -c 41,42
+
+# =======================================================================
+# =       OS VERSION                                                    =
+# =======================================================================
+
+Sous Debian/Ubuntu on trouve aussi des /etc/debian{-,_}version et plus communément du /etc/lsb-release :
+
+/etc/redhat-release
+/etc/lsb-release
+/etc/debian-release
+/etc/debian-version
+/etc/debian_version
+/proc/version
+/etc/yellowdog-release
+/etc/fedora-release
+/etc/gentoo-release
+/etc/mandrake-release
+/etc/mandriva-release
+/etc/SuSE-release
+/etc/slackware-release
+/etc/slackware-version
+/etc/release	# Solaris
+
+# =======================================================================
+# =       YUM                                                           =
+# =======================================================================
+
+yum update
+
+yum repolist all
+
+yum-config-manager --enable [repo name]
+
+# =======================================================================
+# =      RDP pour AD Septeo                                                         =
+# =======================================================================
+
+xfreerdp --ignore-certificate --plugin cliprdr -u admin-lc -g 1920x1000 172.20.2.2   => AD
+
+xfreerdp --ignore-certificate --plugin cliprdr -u adm-lch -g 1920x1000 192.168.71.160  => New AD ( MAC )
+
+
+
+# =======================================================================
+# = kill des sessions :                                                 =
+# =======================================================================
+
+[root@gimli lchauvin]# w
+ 17:49:50 up 39 min,  2 users,  load average: 0.15, 0.20, 0.17
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+lchauvin pts/0    192.168.70.95    17:22   26:38   0.06s  0.06s -bash
+lchauvin pts/1    192.168.70.95    17:38    6.00s  0.07s  0.01s w
+
+[root@gimli lchauvin]# ps -ef | grep lchauvin@pts/1 | grep -v grep
+lchauvin   21687   21684  0 17:38 ?        00:00:00 sshd: lchauvin@pts/1
+
+[root@gimli lchauvin]# kill -s 9 21687
+Connection to gimli closed by remote host.
+Connection to gimli closed.
+
+
+# =======================================================================
+# = APACHE                                                              =
+# =======================================================================
+
+
+Apache et les permissions de fichiers
+Apache n’est pas censé tourner en tant que root, mais en tant 
+qu’utilisateur spécial défini par les directives User et Group dans 
+
+/etc/httpd/conf/httpd.conf.
+
+User apache
+Group apache
+Une règle de sécurité générale, c’est que les contenus du serveur web ne 
+doivent pas appartenir au processus qui fait tourner le serveur. Ici, nous 
+attribuons les contenus à l’utilisateur non privilégié microlinux et au 
+groupe associé microlinux. En passant, nous en profitons pour restreindre 
+les droits d’accès du groupe.
+
+# cd /var/www/html
+# chown -R microlinux:microlinux *
+# find . -type d -exec chmod 0755 {} \;
+# find . -type f -exec chmod 0644 {} \;
+
+Héberger plusieurs sites sur un serveur local
+Le principe des hôtes virtuels (Virtual Hosts) consiste à faire fonctionner 
+un ou plusieurs sites Web sur une même machine. L’utilisateur final ne 
+perçoit pas qu’en fait il s’agit d’un même serveur physique.
+
+Sur un serveur local, on pourra essayer d’héberger trois sites.
+
+http://slackware.amandine hébergera la documentation de Slackware.
+http://freebsd.amandine affichera la documentation de FreeBSD.
+http://amandine pointera vers la page par défaut du serveur.
+Les trois sites seront rangés dans trois arborescences correspondantes.
+
+/var/www/slackware/html pour la documentation de Slackware.
+/var/www/freebsd/html pour la documentation de FreeBSD.
+/var/www/default/html pour la page par défaut du serveur.
+Pour commencer, on va déplacer le site existant dans un nouveau répertoire 
+/var/www/slackware/html.
+
+# cd /var/www
+# mkdir -v slackware
+
+mkdir: création du répertoire « slackware »
+# mv html/ slackware/
+
+Puis, on va créer un autre répertoire /var/www/freebsd/html, dans lequel 
+on va télécharger un autre site, en l’occurrence la documentation de FreeBSD.
+
+# mkdir -pv freebsd/html
+
+mkdir: création du répertoire « freebsd »
+mkdir: création du répertoire « freebsd/html »
+# cd freebsd/html
+# wget -r -p -np -nH --cut-dirs=4 \
+
+  http://www.freebsd.org/doc/fr_FR.ISO8859-1/books/handbook/
+Enfin, on va mettre en place une page par défaut dans le répertoire 
+/var/www/default/html. Pour ce faire, on va utiliser la page qui s’affiche 
+lorsqu’il n’y a pas de contenu.
+
+# cd /var/www
+# mkdir -pv default/html
+
+mkdir: création du répertoire « default »
+mkdir: création du répertoire « default/html »
+# cp -R /usr/share/httpd/noindex/* default/html/
+
+Il ne reste plus qu’à supprimer le répertoire cgi-bin qui ne sert à rien.
+
+# rmdir cgi-bin
+Au total, on a donc…
+
+# ls -l
+total 12
+drwxr-xr-x 3 root root 4096 23 févr. 06:36 default
+drwxr-xr-x 3 root root 4096 23 févr. 06:21 freebsd
+drwxr-xr-x 3 root root 4096 23 févr. 06:19 slackware
+On va définir les permissions à la louche.
+
+# chown -R microlinux:microlinux *
+# find . -type d -exec chmod 0755 {} \;
+# find . -type f -exec chmod 0644 {} \;
+Créer un fichier /etc/httpd/conf.d/00-amandine.microlinux.lan.conf. 
+Ce fichier définira le site affiché par défaut, c’est-à-dire lorsqu’on 
+invoque l’adresse IP ou le nom d’hôte de la machine.
+
+# /etc/httpd/conf.d/00-amandine.microlinux.lan.conf
+#
+# http://amandine.microlinux.lan (page par défaut)
+
+<VirtualHost *:80>
+  ServerAdmin info@microlinux.fr
+  DocumentRoot "/var/www/default/html"
+  ServerName amandine.microlinux.lan
+  ServerAlias amandine
+  ErrorLog logs/amandine.microlinux.lan-error_log
+  CustomLog logs/amandine.microlinux.lan-access_log common
+</VirtualHost>
+Dans le fichier /etc/httpd/conf/httpd.conf, il faudra supprimer 
+toutes les références à l’ancien site par défaut.
+
+DocumentRoot "/var/www/html"
+
+<Directory "/var/www/html">
+  Options Indexes FollowSymLinks
+  AllowOverride None
+  Require all granted
+</Directory>
+Tester la configuration.
+
+# apachectl configtest
+Syntax OK
+Prendre en compte les modifications.
+
+# systemctl reload httpd
+
+
+# =======================================================================
+# = OPERATION SUR SWAP                                                  =
+# =======================================================================
+swapon --show
+
+Creating a Swap File
+The user you are logged in as must have sudo privileges to be 
+able to activate swap. In this guide, we will add 1G of swap, 
+if you want to add more swap, replace 1G with the size of the 
+swap space you need.
+
+Follow the steps below to add swap space on a CentOS 7 system.
+==============================================================
+First, create a file which will be used as swap space:
+
+sudo fallocate -l 1G /swapfile
+Copy
+If the fallocate utility is not available on your system or you get an 
+error message saying fallocate failed: Operation not supported, 
+use the following command to create the swap file:
+
+sudo dd if=/dev/zero of=/swapfile bs=1024 count=1048576
+Copy
+Ensure that only the root user can read and write the swap file:
+
+sudo chmod 600 /swapfile
+Copy
+Next, set up a Linux swap area on the file:
+
+sudo mkswap /swapfile
+Copy
+Run the following command to activate the swap:
+
+sudo swapon /swapfile
+Copy
+Make the change permanent by opening the /etc/fstab file:
+
+sudo nano /etc/fstab
+Copy
+and pasting the following line:
+
+/etc/fstab
+/swapfile swap swap defaults 0 0
+Copy
+Verify that the swap is active by using either the swapon or 
+the free command as shown below:
+
+sudo swapon --show
+Copy
+NAME      TYPE  SIZE   USED PRIO
+/swapfile file 1024M 507.4M   -1
+Copy
+sudo free -h
+Copy
+              total        used        free      shared  buff/cache   available
+Mem:           488M        158M         83M        2.3M        246M        217M
+Swap:          1.0G        506M        517M
+
+
+# =======================================================================
+# = Determiner si les IP de la machine sont Public/Privee/ autre        =
+# =======================================================================
+
+#!/bin/bash
+
+# getipz=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
+# getipz=$(ip addr | grep 'inet' | awk '{print $2}' | cut -f1  -d'/')
+getipz="78.216.202.209 192.168.1.35 127.0.0.1 10.0.0.1 172.16.1.2"
+
+ip2dec () {
+            local a b c d ip=$@
+                IFS=. read -r a b c d <<< "$count"
+                    printf '%d\n' "$((a * 256 ** 3 + b * 256 ** 2 + c * 256 + d))"
+            }
+
+
+ipiz=$(echo $getipz | tr " " "\n")
+
+for count in $ipiz
+do
+rezult=$(ip2dec "$@")
+                if  [ $rezult -ge 3232235776 ] && [ $rezult -le 3232301055 ]
+                then
+                        echo "PRIVATE"
+                        /bin/echo -e "\e[1;32m$count\e[0m"
+                elif [ $rezult -ge 2886729728 ] && [ $rezult -le 2887778303 ]
+                then
+                        echo "PRIVATE"
+                        /bin/echo -e "\e[1;32m$count\e[0m"
+                elif [ $rezult -ge 167772160 ] && [ $rezult -le 184549375 ]
+                then
+                        echo "PRIVATE"
+                        /bin/echo -e "\e[1;32m$count\e[0m"
+                elif [ $rezult -eq 2130706433 ]
+                then
+                        echo "LOOPBACK"
+                        /bin/echo -e "\e[1;32m$count\e[0m"
+
+                else
+                        echo "PUBLIC"
+                        /bin/echo -e "\e[1;31m$count\e[0m"
+                fi
+done
+
+
+
+
+
+
+
+# =======================================================================
+# = Cinelerra Install CENTOS 7                                          =
+# =======================================================================
+
+# =======================================================================
+# = Cinelerra Install CENTOS 7                                          =
+# =======================================================================
+
+# =======================================================================
+# = Cinelerra Install CENTOS 7                                          =
+# =======================================================================
