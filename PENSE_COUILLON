@@ -16,7 +16,7 @@ Record : HS
 
 
 # =======================================================================
-# = CALCUL IP address to Decimal                                        =
+# = CALCUL IP address to Decimal                                 [IP]   =
 # =======================================================================
 
 ip2dec () {
@@ -29,7 +29,7 @@ Where $count does the IP address 192.168.1.25 for example.
 
 
 # =======================================================================
-# = CONNAITRE LES USERS D UN GROUPE                                     =
+# = CONNAITRE LES USERS D UN GROUPE                          [SYS]      =
 # =======================================================================
 
 afficher les users d un groupe LDAP
@@ -44,13 +44,13 @@ getent group MCC | sed 's/,/\n/g' | grep "olivier"
 
 
 # =======================================================================
-# =           Temp Sensor                                               =
+# =           Temp Sensor                                    [SYS]      =
 # =======================================================================
 
 watch sensors
 
 # =======================================================================
-# =      Verifier si Memoire ECC Linux                                  =
+# =      Verifier si Memoire ECC Linux                       [HARD]     =
 # =======================================================================
 
 dmidecode --type memory
@@ -92,7 +92,7 @@ Memory Device
 
 
 # =======================================================================
-# = Activer ou DESACTIVER un Repo Centos7.6 2019                        =
+# = Activer ou DESACTIVER un Repo Centos7.6 2019              [SYS]     =
 # =======================================================================
 
 yum-config-manager --enable redhat_7_workstation.repo
@@ -107,7 +107,7 @@ yum --enablerepo=centos-sclo-rh-testing install php55-php-soap
 
 
 # =======================================================================
-# = OPENGL VERSION                                                      =
+# = OPENGL VERSION                                          [SYS][HARD] =
 # =======================================================================
 
 CLI :
@@ -169,7 +169,7 @@ $ glxinfo | grep -i opengl
 This lists the correct graphics card (the one on the remote computer), as well as the correct version numbers.
 
 # =======================================================================
-# =       FLASH NVIDIA FW                                               =
+# =       FLASH NVIDIA FW                                  [SYS][HARD]  =
 # =======================================================================
 
 Flasher le firmware des carte NVIDIA
@@ -208,7 +208,7 @@ Quadro K5000 	  4 	 GB	2012-08-17 00:00:00	80.04.59.00.18	PCI-E	706 / 1350 / 706
 
 
 # =======================================================================
-# = WACOM Centos7.6 2019                                                =
+# = WACOM Centos7.6 2019                                 [SYS][HARD]    =
 # =======================================================================
 
 Lister les devices
@@ -323,7 +323,7 @@ pour afficher d autre sinfos :
 xsetwacom --list | grep TOUCH | cut -c 41,42
 
 # =======================================================================
-# =       OS VERSION                                                    =
+# =       OS VERSION                                     [SYS]         =
 # =======================================================================
 
 Sous Debian/Ubuntu on trouve aussi des /etc/debian{-,_}version et plus communément du /etc/lsb-release :
@@ -345,7 +345,7 @@ Sous Debian/Ubuntu on trouve aussi des /etc/debian{-,_}version et plus communém
 /etc/release	# Solaris
 
 # =======================================================================
-# = YUM Centos7.6 2019                                                  =
+# = YUM Centos7.6 2019                               [SYS][OS]          =
 # =======================================================================
 
 yum update
@@ -355,7 +355,7 @@ yum repolist all
 yum-config-manager --enable [repo name]
 
 # =======================================================================
-# = kill des sessions :                                                 =
+# = kill des sessions :                               [SYS][SHELL]      =
 # =======================================================================
 
 [root@gimli adminsys]# w
@@ -373,7 +373,7 @@ Connection to gimli closed.
 
 
 # =======================================================================
-# = APACHE Centos7.6 2019                                               =
+# = APACHE Centos7.6 2019                                [SRV]APACHE]   =
 # =======================================================================
 
 
@@ -489,7 +489,7 @@ Prendre en compte les modifications.
 
 
 # =======================================================================
-# = OPERATION SUR SWAP                                                  =
+# = OPERATION SUR SWAP                                   [SYS]          =
 # =======================================================================
 swapon --show
 
@@ -548,7 +548,7 @@ Swap:          1.0G        506M        517M
 
 
 # =======================================================================
-# = Determiner si les IP de la machine sont Public/Privee/ autre        =
+# = Determiner si les IP Public/Privee/ autre        [SYS][SHELL]       =
 # =======================================================================
 
 #!/bin/bash
@@ -594,7 +594,7 @@ done
 
 
 # =======================================================================
-# = Scan Simple des IP sur le reseau                                    =
+# = Scan Simple des IP sur le reseau                       [SYS][IP]    =
 # =======================================================================
 
 RESULT="1"
@@ -612,7 +612,7 @@ fi
 let COUNTER=COUNTER+1 > /dev/null
 done
 # =======================================================================
-# = SCAN BÂTIMENT                                                       =
+# = SCAN BÂTIMENT                                    [SYS][IP]          =
 # =======================================================================
 Fichier : 
 bat_a.mip => IP Modem bat A
