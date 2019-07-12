@@ -591,3 +591,108 @@ rezult=$(ip2dec "$@")
                         /bin/echo -e "\e[1;31m$count\e[0m"
                 fi
 done
+
+
+# =======================================================================
+# = Scan Simple des IP sur le reseau                                    =
+# =======================================================================
+
+RESULT="1"
+COUNTER=1
+
+
+while [ $COUNTER -lt 254 ]; do
+PING=$(ping -t 1 -c 1 172.16.0."$COUNTER" | grep -E -o '[0-9]+ packets received' | cut -f1 -d' ')
+if [ "$RESULT" == "$PING" ]
+then
+    echo "SUCCESSFULL 172.16.0."$COUNTER
+else
+    echo "FAILED 172.16.0."$COUNTER
+fi
+let COUNTER=COUNTER+1 > /dev/null
+done
+
+
+
+SCAN BÂTIMENT
+
+Fichier : 
+bat_a.mip => IP Modem bat A
+bat_b.mip => IP Modem bat B
+bat_c.mip => IP Modem bat C
+
+Use : ./scan_bat.sh bat_a.mip
+
+#!/bin/bash
+# ==================================
+# = SCAN DES MODEM BÂTIMENTS       =
+# = Auteur LCN 2017 / Proxiel      =
+# = bat_a.mip => IP Modem bat A    =
+# = bat_b.mip => IP Modem bat B    =
+# = bat_c.mip => IP Modem bat C    =
+#                                  =
+# Usage : ./scan_bat.sh bat_a.mip  =
+# ==================================
+RESULT="1"
+cat $1 | while read ligne
+	do
+		PING=$(ping -t 1 -c 1 172.16.0."$ligne" | grep -E -o '[0-9]+ packets received' | cut -f1 -d' ')
+		if [ "$RESULT" == "$PING" ]
+			then
+				echo "MODEM 172.16.0."$ligne" UP!"
+			else
+				echo "MODEM 172.16.0."$ligne" DOWN !"
+		fi
+	done
+
+
+avec Correspondance MDM / Chambre MONBONOT INOVALLEE
+
+#!/bin/sh
+# ==================================
+# = SCAN DES MODEM BÂTIMENTS       =
+# = Auteur LCN 2017 / Proxiel      =
+# ==================================
+RESULT="1"
+cat mdmappt.mip | while read ligne
+	do
+		ip=$(echo $ligne | awk '{FS="," ; print $1 }')
+		appt=$(echo $ligne | awk '{FS="," ; print $2}')
+		PING=$(ping -t 1 -c 1 "$ip" | grep -E -o '[0-9]+ packets received' | cut -f1 -d' ')
+		if [ "$RESULT" == "$PING" ]
+			then
+				echo "MODEM : "$ip" Appt : "$appt" => UP!"
+			else
+				echo "MODEM : "$ip" Appt : "$appt" => DOWN !"
+		fi
+	done
+
+	
+	
+# ==================================
+# = SED EXAMPLES                   =
+# = Auteur LCN / 2017              =
+# ==================================	
+$ cat exemple 
+<balise>champs#séparés#par#des#dièses</balise>
+<balise>champs#séparés#par#des#dièses</balise>
+
+$ sed -s '/<balise>.*<\/balise>/ {n}
+N
+s/\n//
+
+' exemple 
+
+<balise>champs#séparés#par#des#dièses</balise>
+<balise>champs#séparés#par#des#dièses</balise>
+ça passe avec l'exemple proposé, mais c'est loin d'être parfait. 
+Si une ligne est découpée sur plus de deux lignes, ou si le 
+retour à la ligne découpe une balise, ça ne suffit pas.
+
+Si tu as plusieurs jeux de balise possible, c'est aussi un peu 
+court en l'état. 
+A ce moment là, et je suis le premier étonné, ce qui suit à l'air de marcher =)
+
+sed -s '/<\(.*\)>.*<\/\1>/ {n}
+N
+s/\n//
