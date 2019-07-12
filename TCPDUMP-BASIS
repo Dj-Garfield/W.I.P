@@ -1,0 +1,74 @@
+# =========================================
+# = TCPDUMP Basis and tips
+# =========================================
+
+cat /etc/services |grep http
+Result :
+
+    http 80/tcp www # WorldWideWeb HTTP
+    http 80/udp # HyperText Transfer Protocol
+    https 443/tcp # http protocol over TLS/SSL
+    https 443/udp
+    http-alt 8080/tcp webcache # WWW caching service
+    http-alt 8080/udp
+    
+# =========================================
+# =  HARDWARE
+# =========================================    
+    tcpdump -D
+Harddware States 
+
+    1.eth0 [Up, Running]
+    2.wlan0 [Up, Running]
+    3.any (Pseudo-device that captures on all interfaces) [Up, Running]
+    4.lo [Up, Running, Loopback]
+    
+    
+tcpdump -i wlan0
+tcpdump -n    => Name resolution disabled
+tcpdump -x    => Display packet in Hexadecimal
+tcpdump -p    => Promiscuous Mode Disable , to listen only on the Workstation Interface.
+tcpdump -v [protocol] => display paquets protocol relevant ( arp for example )
+
+8:01:12.186720 ARP, Ethernet (len 6), IPv4 (len 4), Request who-has 192.168.27.1 tell 192.168.27.14, length 42
+
+Petit rappel ARP (adress resolution protocol) permet au niveau de la couche 2, donc en réseau local de donner la correspondance entre les adresses IP et les adresses MAC des machines. La requête ARP d’une machine part en broadcast et demande à tout le réseau: »
+« A qui appartient cette IP? Si quelqu’un se reconnait qu’il m’envoie sa MAC pour que je puisse lui envoyer mon message dans une trame ethernet à son intention ».
+Dans notre exemple, la machine 192.168.27.14 demande à tout le réseau « quelle est la MAC de 192.168.27.1 ? » 
+    
+tcpdump -i enso2p udp => capture only UDP paquets on the enso2p interface
+tcpdump src 192.168.0.254 => Display paquets from this source IP
+tcpdump dst 192.168.0.254 => Display paquets to this destination IP
+tcpdump host 192.168.0.254 => Display Source and Destination paquets for this Host
+tcpdump -w capture.log => Recording dump into a file text based
+tcpdump -w capture.pcap => Record the dump into a wireshark readable file 
+tcpdump -r capture.log => Read a log file
+tcpdump host siteweb.com => Display Paquets contains siteweb.com as source or destination
+ Examples :
+ tcpdump src 192.168.1.100 and dst 192.168.1.2 and port ftp -w capture.log
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+# =========================================
+# = 
+# =========================================    
+# =========================================
+# = 
+# =========================================    
+
+# =========================================
+# = 
+# =========================================    
+
+# =========================================
+# = 
+# =========================================    
