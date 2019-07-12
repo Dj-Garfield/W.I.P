@@ -611,11 +611,9 @@ else
 fi
 let COUNTER=COUNTER+1 > /dev/null
 done
-
-
-
-SCAN BÂTIMENT
-
+# =======================================================================
+# = SCAN BÂTIMENT                                                       =
+# =======================================================================
 Fichier : 
 bat_a.mip => IP Modem bat A
 bat_b.mip => IP Modem bat B
@@ -666,8 +664,6 @@ cat mdmappt.mip | while read ligne
 				echo "MODEM : "$ip" Appt : "$appt" => DOWN !"
 		fi
 	done
-
-	
 	
 # ==================================
 # = SED EXAMPLES                   =
@@ -696,3 +692,502 @@ A ce moment là, et je suis le premier étonné, ce qui suit à l'air de marcher
 sed -s '/<\(.*\)>.*<\/\1>/ {n}
 N
 s/\n//
+
+# =============================================================
+#	PfSense
+# =============================================================
+anti logs flood arp Openmesh
+
+Dans system tunable => 
+
+net.link.ether.inet.allow_multicast=1
+# =============================================================
+#	Divers Bash Shell
+# =============================================================
+"chaine de caracteres", 'caractere unique'
+# =============================================================
+#	COMMANDE UTILES
+# =============================================================
+tcpdump -n -i ste3 => pour afficher qui repond a une requete ARP sur l interface STE3
+# =============================================================
+#	RESET AUTOINCREMENT MYSQL
+# =============================================================
+ALTER TABLE tablename AUTO_INCREMENT = 1
+# =============================================================
+#	RECHERCHE FICHIERS OU REPERTOIRES
+# =============================================================
+if [ -f lefichier ] 
+then 
+   // ACTION SI VRAI 
+else  
+   // ACTION SI FAUX 
+fi
+
+test -f lefichier 
+echo $?
+et si c'est un dossier dans ce cas c'est -d et non -f
+
+# =============================================================
+#	INFO SYSTEM
+# =============================================================
+
+cat /proc/cpuinfo
+cat /proc/cpuinfo | grep model | cut -c14-
+
+# =============================================================
+#	AWK EXEMPLES
+# =============================================================
+find /var/run/ -name "*GW_OPT2*.pid" | awk '{ FS="~" ; print $3}' | awk '{ FS="." ; print $1"."$2"."$3"."$4}'
+
+depuis les logs pfsense
+
+cat La_Duranne.* | grep DHCPACK | awk '{ FS=" " ; print $1$2"\t"$8"\t | "$10"\t | "$11}' | sort | uniq >> analog.txt
+
+# =============================================================
+#	Extract ip perl
+# =============================================================
+perl -pe 's/.*?(([1-9]?[0-9]{1,2}\.){3}[1-9]?[0-9]{1,2}).*/\1/' nom_du_fichier
+
+# =============================================================
+#	Test des variables d'environement
+# =============================================================
+# LOGER LES ENV VARS dans un nom de fichier parsé 
+# en arguments , usage ./[script].sh [argument]
+# =============================================================
+#!/bin/sh
+id -a >>/tmp/envars-$1.res
+env 2>&1  >>/tmp/truc-$1.res
+echo "Test de verification Owner et environement"
+
+"Resultats:"
+# ===================== CENTREON en SSH =======================
+uid=181(nagios) gid=181(nagios) groups=181(nagios),0(wheel)
+LOGNAME=root
+LANG=en_US.UTF-8
+LD_ELF_HINTS_PATH=/var/run/ld-elf.so.hints.nrpe-amd64
+LD_32_ELF_HINTS_PATH=/var/run/ld-elf32.so.hints.nrpe-amd64
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+PWD=/
+LD_32_PBIPRELOAD=/usr/pbi/.pbi_preload32.so
+LD_32_LIBRARY_PATH=/usr/local/lib
+HOME=/root
+USER=root
+NRPE_PROGRAMVERSION=2.15
+LD_PBIPRELOAD=/usr/pbi/.pbi_preload.so
+NRPE_MULTILINESUPPORT=1
+PBI_RUNDIR=/usr/pbi/nrpe-amd64
+RC_PID=97690
+
+# ===================== LOCAL =================================
+uid=181(nagios) gid=181(nagios) groups=181(nagios),0(wheel)
+VENDOR=amd
+SSH_CLIENT=78.193.46.120 60377 22
+LSCOLORS=exfxcxdxbxegedabagacad
+LOGNAME=root
+OSTYPE=FreeBSD
+MACHTYPE=x86_64
+FTP_PASSIVE_MODE=YES
+CLICOLOR=true
+MAIL=/var/mail/root
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/root/bin
+HOST=doberman.appartcity.beziers
+REMOTEHOST=78.193.46.120
+PWD=/usr/pbi/nrpe-amd64/local/libexec/nagios
+GROUP=wheel
+TERM=xterm
+SSH_TTY=/dev/pts/0
+HOME=/root
+USER=root
+SSH_CONNECTION=78.193.46.120 60377 192.168.1.1 22
+HOSTTYPE=FreeBSD
+SHELL=/bin/sh
+BLOCKSIZE=K
+SHLVL=1
+
+# ========================================================================PORTAIL==============================================================
+
+# =============================================================
+#	SCRIPT PORTAIL PFSENSE 2.3.X
+# =============================================================
+# ZONE DE TEST :
+# SE PERPIGNAN / PORT D'ESPAGNE RESIDIS PFSENSE 2.3.4_1
+# =============================================================
+
+#!/bin/sh
+mkdir /portalse
+cd /portalse
+fetch http://www.le-serveur.com/portalse.tar.gz
+tar -xzvf portalse.tar.gz
+cat /cf/conf/config.xml | grep "<zone>" | sed "s/.*\(<zone>.*\)/\1/" | sed -e "s/<zone>//g" | sed -e "s/<\/zone>//g" | tr '[:upper:]' '[:lower:]'> /tmp/zone
+nbzone=$(sed -n '$=' /tmp/zone)
+if [ $nbzone -ne 1 ]
+then
+    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!       Non Equivalent           !!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	exit
+else
+        echo "Equivalent"
+fi
+nomzone=$(cat /tmp/zone)
+echo $nbzone
+echo nomzone
+echo $nomzone
+
+cp /portalse/usr/local/captiveportal/* /usr/local/captiveportal/
+cp /portalse/var/db/cpelements/* /usr/local/captiveportal/
+cp /portalse/var/db/cpelements/* /var/db/cpelements/
+
+cp /portalse/index.php /var/etc/captiveportal_$nomzone.html
+cp /portalse/err.php /var/etc/captiveportal-$nomzone-error.html
+
+mv /portalse/portal.tar.gz /
+rm -rf /portalse/*
+mv /portal.tar.gz /portal/
+
+echo "Derniere Mise à Jour le : " `date` >> /majcp.log
+
+# =============================================================
+#	SCRIPT PORTAIL AC 2.3.X
+# =============================================================
+# ZONE DE TEST :
+# 2.3.0 / 2.3.1 / 2.3.2 / 2.3.3 / 2.3.4
+# =============================================================
+
+#!/bin/sh
+mkdir /portal
+cd /portal
+fetch http://www.lesite.com/portal.tar.gz
+tar -xzvf portal.tar.gz
+cat /cf/conf/config.xml | grep "<zone>" | sed "s/.*\(<zone>.*\)/\1/" | sed -e "s/<zone>//g" | sed -e "s/<\/zone>//g" | tr '[:upper:]' '[:lower:]'> /tmp/zone
+nbzone=$(sed -n '$=' /tmp/zone)
+if [ $nbzone -ne 1 ]
+then
+    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!       Non Equivalent           !!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	exit
+else
+        echo "Equivalent"
+fi
+nomzone=$(cat /tmp/zone)
+echo $nbzone
+echo nomzone
+echo $nomzone
+
+cp usr/local/captiveportal/captiveportal-* /usr/local/captiveportal/
+cp usr/local/captiveportal/captiveportal-* /var/db/cpelements/
+cp var/db/cpelements/captiveportal-* /var/db/cpelements/
+
+cp index.php /var/etc/captiveportal_$nomzone.html
+cp err.php /var/etc/captiveportal-$nomzone-error.html
+
+mv /portal/portal.tar.gz /
+rm -rf /portal/*
+mv /portal.tar.gz /portal/
+
+echo "Derniere Mise à Jour le : " `date` > /majcp.log
+
+
+# ========================================================================SYSLOG==============================================================
+# =============================================================
+#	VERLOG_1.sh
+# =============================================================
+
+#!/bin/bash
+# ==================================
+# = Verification LOGs Increased    =
+# = Auteur LCN 2017 / Proxiel      =
+# = Script en cron a 1h du matin   =
+# = verlog_1.sh                    =
+# ==================================
+
+source /root/scripts/groupe.sh
+veriflognok=0
+taille=${#groupeminuscule[@]}
+
+# =======================FONCTION DE LISTAGE
+listagelast()
+{
+for i in `seq 0 $((taille-1))`
+do
+        group=${groupeminuscule[$i]}
+        ls -Al /var/log/$group | grep -v '^total' | awk '{ FS=" " ; print $9"|"$5 }' >> tmp_last
+done
+cat tmp_last | sort > last.csv
+rm tmp_last
+}
+# ==============================FIN FONCTION
+
+
+# ========== MAIN ==========================
+
+listagelast
+
+        # ===============CREATION TABLEAU LAST CHECK
+        cpt=0
+        for i in $(cat last.csv); do
+                tablast[$cpt]=$i
+                cpt=$cpt+1
+        done
+        # =========== AFFICHAGE DU TABLEAU POUR DEBUG
+        for j in ${tablast[@]}; do
+                echo $j
+        done
+        # ===========================================
+# ===== FIN MAIN ==========================
+
+# =============================================================
+#     VERLOG_2.sh 
+# =============================================================
+
+#!/bin/bash
+# ==================================
+# = Verification LOGs Increased    =
+# = Auteur LCN 2017 / Proxiel      =
+# ==================================
+
+source /root/scripts/groupe.sh
+veriflognok=0
+taille=${#groupeminuscule[@]}
+
+# =======================FONCTION DE LISTAGE
+listagenew()
+{
+for i in `seq 0 $((taille-1))`
+do
+        group=${groupeminuscule[$i]}
+        ls -Al /var/log/$group | grep -v '^total' | awk '{ FS=" " ; print $9"|"$5 }' >> tmp_new
+done
+cat tmp_new | sort > new.csv
+rm tmp_new
+}
+# ==============================FIN FONCTION
+# ========== MAIN ==========================
+
+listagenew
+
+        # ================CREATION TABLEAU LAST CHECK
+        cpt=0
+        for i in $(cat last.csv); do
+                tablast[$cpt]=$i
+                cpt=$cpt+1
+        done
+        # =========== AFFICHAGE DU TABLEAU POUR DEBUG
+        for j in ${tablast[@]}; do
+                echo $j
+        done
+
+        # =================CREATION TABLEAU NEW CHECK
+        cpt=0
+        for k in $(cat new.csv); do
+                tabnew[$cpt]=$k
+                cpt=$cpt+1
+        done
+        # =============AFFICHAGE DU TABLEAU NEW CHECK
+        for l in ${tabnew[@]}; do
+                echo $l
+        done
+
+# ===== FIN MAIN ==========================
+
+# =============================================================
+#     VERLOG_3.sh
+# =============================================================
+source /root/scripts/groupe.sh
+veriflognok=0
+taille=${#groupeminuscule[@]}
+	# =======================FONCTION DE LISTAGE
+listagenew()
+{	for i in `seq 0 $((taille-1))`
+		do
+			group=${groupeminuscule[$i]}
+			ls -Al /var/log/$group | grep -v '^total' | awk '{ FS=" " ; print $9"|"$5 }' >> tmp_new
+		done
+	cat tmp_new | sort > new.csv
+	rm tmp_new
+	}
+	# ==============================FIN FONCTION
+# ========== MAIN ==========================
+listagenew
+# ================COMPARAISON=DES=DEUX=CHECK
+komp=$(sort last.csv new.csv | uniq -d)
+echo "Log figés pour : "$komp
+# ===========================FIN=COMPARAISON
+
+# =====================REMPLACEMENT_LAST_NEW
+rm last.csv && mv new.csv last.csv >> 
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+# =============================================================
+# Lien relatif PfSense
+# =============================================================
+#!/bin/bash
+pathd="/root/depart/"
+patha="/root/arrivee/"
+cd $pathd
+result=$(ls $pathd)
+for i in $result
+do echo $i
+ln -s $pathd$i $patha$i
+done
+
+
+grep -r "pattern" /
+
+# =============================================================
+# IPERF
+# =============================================================
+
+Online :
+iperf3 -c ping.online.net -p 5202 -t 20
+
+
+# =============================================================
+# CHFLAG PFSENSE
+# =============================================================
+
+chflags nouappnd,nouchg /var/etc/captiveportal*
+
+chflags uappnd,uchg /var/etc/captiveportal*
+
+
+# =============================================================
+# OVER PASS 1Mb captiveportal
+# =============================================================
+
+dans services_captiveportal_filemanager.php
+
+// check total file size 
+
+et commenter les lignes ( 4 ) pour bypasser la limitation .
+
+# =============================================================
+# Caractere Maj Accents
+# =============================================================
+
+Á = alt 181
+Â = alt 182
+À = alt 183
+Ã = alt 199
+Ç = alt 128
+È = alt 212
+É = alt 144
+Ë = alt 211
+Ê = alt 210
+Ñ = alt 165
+Ö = alt 153
+Ú = alt 233
+Û = alt 234
+Ù = alt 235
+Ü = alt 154
+
+
+# =============================================================
+#	supprimer les ^M
+# =============================================================
+
+Dans VI :
+
+:%s/<Ctrl-v><entrée>//g
+
+# =============================================================
+#	Creation des Codes Radius Local ( ex: cogedim )
+# =============================================================
+
+Sur /root/ sur sav.proxiel.com
+
+root@sav.proxiel.com:34081	root/n3t1m3d1@$
+
+#!/bin/bash
+ 
+for i in `cat apt.txt`
+do
+username=`echo "$i" | awk -F"," '{ print $1 }'`
+code=`echo "$i" | awk -F"," '{ print $2 }'`
+
+echo "                  <config>
+                                <varusersusername>$username</varusersusername>
+                                <varuserspassword>$code</varuserspassword>
+                                <varuserspasswordencryption>Cleartext-Password</varuserspasswordencryption>
+                                <varusersmotpenable></varusersmotpenable>
+                                <varusersmotpinitsecret></varusersmotpinitsecret>
+                                <varusersmotppin></varusersmotppin>
+                                <varusersmotpoffset></varusersmotpoffset>
+                                <varuserssimultaneousconnect></varuserssimultaneousconnect>
+                                <varuserswisprredirectionurl></varuserswisprredirectionurl>
+                                <description><![CDATA[$code]]></description>
+                                <varusersframedipaddress></varusersframedipaddress>
+                                <varusersframedipnetmask></varusersframedipnetmask>
+                                <varusersframedroute></varusersframedroute>
+                                <varusersvlanid></varusersvlanid>
+                                <varusersexpiration></varusersexpiration>
+                                <varuserssessiontimeout></varuserssessiontimeout>
+                                <varuserslogintime></varuserslogintime>
+                                <varusersamountoftime></varusersamountoftime>
+                                <varuserspointoftime>Daily</varuserspointoftime>
+                                <varusersmaxtotaloctets></varusersmaxtotaloctets>
+                                <varusersmaxtotaloctetstimerange>daily</varusersmaxtotaloctetstimerange>
+                                <varusersmaxbandwidthdown></varusersmaxbandwidthdown>
+                                <varusersmaxbandwidthup></varusersmaxbandwidthup>
+                                <varusersacctinteriminterval></varusersacctinteriminterval>
+                                <varuserstopadditionaloptions></varuserstopadditionaloptions>
+                                <varuserscheckitemsadditionaloptions></varuserscheckitemsadditionaloptions>
+                                <varusersreplyitemsadditionaloptions></varusersreplyitemsadditionaloptions>
+                        </config>" >> cnf_$1.txt
+done
+
+
+# =============================================================
+#   ALEA ENTRE BORNE OPEN OFFICE                              =
+# =============================================================
+
+OpenOffice Calc pour generer des password chiffrés
+
+ALEA.ENTRE.BORNES
+
+Renvoie un nombre entier aléatoire dans une plage spécifiée.
+
+Cette fonction est disponible uniquement si l'AddIn Analyse est installé.
+Syntaxe :
+
+ALEA.ENTRE.BORNES(bas; haut)
+
+    Renvoie un nombre entier aléatoire entre les nombres entier bas et haut (tous deux inclus). 
+
+    Cette fonction produit un nouveau nombre aléatoire chaque fois que Calc fait un recalcul. Pour forcer Calc à recalculer, appuyez sur Maj+Ctrl+F9. 
+
+    Pour générer un nombre aléatoire qui n'est jamais recalculé, copiez une cellule contenant cette fonction, et utilisez Édition - Collage spécial (avec Tout insérer et Formules non sélectionnées Nombres sélectionné). 
+
+    Une alternative à cette fonction ne requérant pas l'AddIn Analyse, serait : 
+    ENT(ALEA()*(haut-bas+1))+bas. 
+
+Exemple:
+
+ALEA.ENTRE.BORNES(20; 30)
+
+    renvoie un nombre entier entre 20 et 30 (inclus). 
+
+
+# ========================================================================CRON==============================================================
+Often cron failures are due to environment issues. For security the environment that cron provides is not the same as the user\'s environment. There is an easy fix that also happens to be a best practice for all scripting.
+Always provide the full path to any external commands inside your scripts.
+\'tar\' should be /bin/tar (at least on my system) and \'date\' is /bin/date. Your specific locations may be different.
+Lastly, you didnt actually verify that that the \'cd\' command worked. You could be in any directory. What happens if that directory doesnt exist?
+With bash scripting, you may want to enable stop on error, noclobber, and catch any signals.
+Ok, with all that said, I looked at your errors and cron wants to send an email out when it finishes. That means you need an MTA like postfix installed. That is the MTA error.
+# ========================================================================WIKIMEDIA==============================================================
+* [https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:Configuration_settings Liste des paramètres de configuration]
+* [https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:FAQ/fr Questions courantes sur MediaWiki]
+* [https://lists.wikimedia.org/mailman/listinfo/mediawiki-announce Liste de discussion sur les distributions de MediaWiki]
+* [https://www.mediawiki.org/wiki/Special:MyLanguage/Localisation#Translation_resources Adaptez MediaWiki dans votre langue]
+* [https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:Combating_spam Apprendre comment lutter contre le pourriel dans votre wiki]
