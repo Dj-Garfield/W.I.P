@@ -1,3 +1,59 @@
+# =========================================
+# = CONVERSION VIDEO TO IMG               =
+# =========================================
+
+If you are interested in making GIF animation, 
+I suggest you watch these two videos,
+
+Making an animated GIF in Linux :
+https://youtu.be/gT2y1SVf2hI
+ 
+How to make a GIF with GIMP :
+https://youtu.be/Af6kqSvXV4Q 
+
+
+To convert viedeo to png images you need to run this command: 
+
+ffmpeg -ss 00:10 -i [video-filename].mp4 -t 00:03 [images-filename]_%03d.png 
+ffmpeg -ss 00:10 -i [video-filename].mp4 -t 00:03 [images-filename]_%03d.jpg
+
+chosing extention means encoding the picture in this kind of image
+ 
+where 
+-ss defines the offset from the beginning of the video 
+-t specifies how long the fragment should be. 
+-i is to provide the input video file name. 
+%03d - indicated to use 3 digits number. 
+
+For example, the output will be like this: 
+images-filename_001d.png images-filename_002d.png images-filename_003d.png To have have all the tools to make GIF animations from images and videos, save this playlist
+
+# ==========================================
+# = MODIFICATION TAILLE IMG's GRAPHIC-MAGICK
+# ==========================================
+
+Redimensionner une image
+
+retailler l image en 640 de large (le ratio auteur largeur est conservé) uniquement si l image fait plus de 640 pixels de large (le >)
+
+root@home:~# gm mogrify +profile "*" -resize '640>' monimage.jpg
+
+L option +profile "*" est un petit bonus qui permet de supprimer les métadonnées de l image (Exif ...).
+
+GraphicsMagick propose une option équivalente à resize mais qui utilise un algorithme plus rapide, c'est l'option thumbnail qui permet la création de miniature. La ligne de commande devient :
+
+root@home:~# gm mogrify +profile "*" -thumbnail '640>' monimage.jpg
+
+Redimensionner un lot d image
+
+xargs et find pour traiter des fichiers par lots (cf : Optimiser de jpeg)
+dans le cas du redimensionnement d images => doubles traitements. 
+find option exec qui permet de lancer une commande sur les fichiers trouvés.
+
+Assez de blah blah voici donc la commande qui permet de retailler un lot d image :
+
+root@home:~# find /chemin/vers/mon/lot/images/ -type f -name '*.jpg' -exec gm mogrify -resize '640>' {} \;
+
 # =======================================================================
 # = CINELERRA INstallation sur Centos7.6 2019                           =
 # =======================================================================
@@ -1103,10 +1159,6 @@ Dans VI :
 # =============================================================
 #	Creation des Codes Radius Local ( ex: cogedim )
 # =============================================================
-
-Sur /root/ sur sav.proxiel.com
-
-root@sav.proxiel.com:34081	root/n3t1m3d1@$
 
 #!/bin/bash
  
