@@ -1,0 +1,147 @@
+Fail2Ban - Bannir automatiquement les intrus
+
+Install fail2ban :
+------------------
+
+Ubuntu
+------
+Code BASH :
+apt-get install fail2ban
+
+Mageia
+------
+Code BASH :
+urpmi fail2ban
+
+CentOS
+------
+Les dépôts EPEL doivent être activés.
+
+yum install fail2ban
+
+Lancer le service au démarrage :
+--------------------------------
+
+Code BASH :
+rc-update add fail2ban
+
+Configurer les services
+-----------------------
+
+Les services se configurent dans le fichier /etc/fail2ban/jail.conf
+La section [DEFAULT] indique les prises de décisions par fail2ban si dans chaque service rien n'est défini
+Code :
+ignoreip = 127.0.0.1/8            #adresses IP ignorées par les actions de fail2ban 
+bantime  = 600                   #temps de bannissement en secondes 
+maxretry = 3                      #nombre d'essais au bout du quel fail2ban bannit notre intrus 
+
+
+SSH
+
+Nous allons configurer fail2ban pour bannir les intrus passant par ssh.
+
+Voici un exemple de service actif, intrus banni au bout de 3 essais pour une durée de 15 minutes.
+Code :
+
+[ssh-iptables] 
+
+enabled  = true 
+port     = ssh 
+filter   = sshd 
+action   = iptables[name=SSH, port=ssh, protocol=tcp] 
+logpath  = /var/log/auth.log 
+
+
+Si on change le port de SSH par exemple 1234
+
+Code :
+[ssh-iptables] 
+
+enabled  = true 
+port     = 1234 
+filter   = sshd 
+action   = iptables[name=SSH, port=1234, protocol=tcp] 
+logpath  = /var/log/auth.log 
+
+
+On peut aussi « écraser » les valeurs par défaut (maxretry, bantime) en rappelant les options dans le service concerné
+
+Code :
+
+[ssh-iptables] 
+
+enabled  = true 
+port     = ssh 
+filter   = sshd 
+action   = iptables[name=SSH, port=ssh, protocol=tcp] 
+logpath  = /var/log/auth.log 
+maxretry = 2 
+bantime  = 3600 
+
+
+Webmin
+
+Voici les lignes à ajouter au fichier jail.conf pour bannir un hôte tentant d'accéder à webmin.
+
+Code BASH :
+[webmin]
+ 
+enabled  = true
+port     = 10000
+filter   = webmin-auth
+logpath  = /var/log/auth.log
+maxretry = 3
+bantime  = 900
+
+
+
+
+Test de la configuration
+
+
+Sur le serveur on lance un tailf /var/log/fail2ban.log.
+On tente de se connecter en SSH (dans mon exemple) plus de 2 fois et on vérifie qu'on est bien banni:
+
+Code :
+2015-04-09 11:33:33,985 fail2ban.jail           [22561]: INFO    Jail 'ssh-iptables' started 
+2015-04-09 11:33:53,431 fail2ban.filter         [22561]: INFO    [ssh-iptables] Found 10.21.27.250 
+2015-04-09 11:33:56,636 fail2ban.filter         [22561]: INFO    [ssh-iptables] Found 10.21.27.250 
+2015-04-09 11:34:22,988 fail2ban.filter         [22561]: INFO    [ssh-iptables] Found 10.21.27.250 
+2015-04-09 11:34:23,353 fail2ban.actions        [22561]: NOTICE  [ssh-iptables] Ban 10.21.27.250 
+
+
+
+Dé-bannir une IP bannie
+
+
+Suite à une fausse manip, il se peut qu'ont ait été banni. Si on a accès au serveur par un autre biais, on peut supprimer la règle iptables qui nous bloque.
+
+Pour cela, on liste les entrées sur le serveur de la table de fail2ban :
+
+Code BASH :
+iptables -L
+ 
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+f2b-SSH    tcp  --  anywhere             anywhere             tcp dpt:ssh
+ 
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain f2b-SSH (1 references)
+target     prot opt source               destination
+REJECT     all  --  218.87.111.107       anywhere             reject-with icmp-port-unreachable
+RETURN     all  --  anywhere             anywhere
+ 
+
+
+Imaginons, on souhaite dé-bannir l'adresse - 218.87.111.107 - .
+On repère sa position dans la liste (ici 1ère position), et le nom de la table est f2b-SSH
+
+On supprime ensuite la ligne grâce à sa position :
+
+Code BASH :
+iptables -D f2b-SSH 1
