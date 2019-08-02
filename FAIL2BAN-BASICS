@@ -145,3 +145,124 @@ On supprime ensuite la ligne grâce à sa position :
 
 Code BASH :
 iptables -D f2b-SSH 1
+
+
+Creation d'une Jail Personalisee
+--------------------------------
+
+copier le fichier /etc/fail2ban/jail.conf et le renomer en jail.local afin d’utiliser ce dernier pour notre configuration :
+
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+Ouvrez le fichier jail.local avec votre éditeur texte et modifiez :
+-------------------------------------------------------------------
+
+[DEFAULT]
+# les adresses IP ignorées
+ignoreip = 127.0.0.1/8
+#la durée de l’exclusion en seconde
+bantime = 1800
+#la durée et le nombre de tentative pendant lesquelles une adresse risque d’etre bannis
+findtime = 600
+maxretry = 3
+
+Ensuite, toujours dans le même fichier, nous allons descendre en bas dans la partie Jail
+pour activer la surveillance sur le port ssh, si vous avez changé le port ssh n’oubliez pas 
+de le mentionner dans la valeur port :
+
+[ssh]
+enabled = true
+banaction = ufw-ssh
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 5
+
+Même chose pour le serveur web apache :
+---------------------------------------
+
+[apache]
+enabled = true
+banaction = ufw-apache
+port = http,https
+filter = apache-auth
+logpath = /var/log/apache*/*error.log
+maxretry = 6
+
+[apache-multiport]
+enabled = true
+banaction = ufw-apache
+port = http,https
+filter = apache-auth
+logpath = /var/log/apache*/*error.log
+maxretry = 6
+
+[apache-noscript]
+enabled = true
+banaction = ufw-apache
+port = http,https
+filter = apache-noscript
+logpath = /var/log/apache*/*error.log
+maxretry = 6
+
+[apache-overflows]
+enabled = true
+banaction = ufw-apache
+port = http,https
+filter = apache-overflows
+logpath = /var/log/apache*/*error.log
+maxretry = 2
+
+
+Et pour proftpd :
+-----------------
+
+[proftpd]
+enabled = true
+banaction = ufw-proftpd
+port = ftp,ftp-data,ftps,ftps-data
+filter = proftpd
+logpath = /var/log/proftpd/proftpd.log
+maxretry = 5
+
+Maintenant il fait créer les actions de ban définit précédemment dans la partie Jail 
+(ufw-ssh, ufw-apache, ufw-proftpd) et les mettre dans :
+
+/etc/fail2ban/action.d
+
+ufw-ssh.conf :
+--------------
+
+[Definition]
+actionstart =
+actionstop =
+actioncheck =
+actionban = ufw insert 1 deny from to any port 22
+actionunban = ufw delete deny from to any port 22
+
+ufw-apache.conf :
+-----------------
+
+[Definition]
+actionstart =
+actionstop =
+actioncheck =
+actionban = ufw insert 1 deny from to any app "Apache Full"
+actionunban = ufw delete deny from to any app "Apache Full"
+
+ufw-proftpd.conf :
+------------------
+
+[Definition]
+actionstart =
+actionstop =
+actioncheck =
+actionban = ufw insert 1 deny from to any port 21
+actionunban = ufw delete deny from to any port 21
+
+Il faut bien s’assurer que les règles deny sont toujours placées en haut avant toutes les règles allow, et aussi changer le port si cela est nécessaire (dans le cas où vous utilisez d’autres port pour le ssh, ftp ou web).
+
+Relancez fail2ban :
+
+sudo fail2ban-client reload
+
