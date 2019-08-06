@@ -1,4 +1,21 @@
 # =========================================
+# = USING LOG FILES
+# =========================================
+All login attempts are logged to /var/log/auth.log
+
+Search for brute-force SSH logins:
+----------------------------------
+
+srv-admin@server.local :~#/ grep sshd.\*Failed /var/log/auth.log | less
+
+Search for failed connections:
+------------------------------
+
+srv-admin@server.local :~#/ grep sshd.*Did /var/log/auth.log | less
+
+
+
+# =========================================
 # = CONVERSION VIDEO TO IMG               =
 # =========================================
 
