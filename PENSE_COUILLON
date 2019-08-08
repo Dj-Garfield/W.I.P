@@ -1,3 +1,25 @@
+
+# =============================================================
+# = SCAN IP Manuel                                     [SYS]
+# =============================================================
+
+#!/bin/bash
+RESULT="1"
+COUNTER=1
+
+while [ $COUNTER -lt 254 ]; do
+PING=$(ping -t 1 -c 1 172.16.0."$COUNTER" | grep -E -o '[0-9]+ packets received' | cut -f1 -d' ')
+if [ "$RESULT" == "$PING" ]
+then
+    echo "SUCCESSFULL 172.16.0."$COUNTER
+else
+    echo "FAILED 172.16.0."$COUNTER
+fi
+let COUNTER=COUNTER+1 > /dev/null
+done
+
+
+
 # =============================================================
 # = Open Files and Open Thread                        [SYS]
 # =============================================================
