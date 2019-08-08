@@ -27,10 +27,10 @@ done
 depending on OS
 
 Code:
-ptree ( Debian )
+ptree 
 
 Code:
-pstree ( Centos )
+pstree ( Centos / Debian )
 
 Code:
 truss
@@ -91,9 +91,6 @@ srv-admin@server.local :~#/ grep sshd.*Did /var/log/auth.log | less
 # = CONVERSION VIDEO TO IMG                 [GRAPHIC]         =
 # =============================================================
 
-If you are interested in making GIF animation, 
-I suggest you watch these two videos,
-
 Making an animated GIF in Linux :
 https://youtu.be/gT2y1SVf2hI
  
@@ -101,7 +98,7 @@ How to make a GIF with GIMP :
 https://youtu.be/Af6kqSvXV4Q 
 
 
-To convert viedeo to png images you need to run this command: 
+To convert video to png images you need to run this command: 
 
 ffmpeg -ss 00:10 -i [video-filename].mp4 -t 00:03 [images-filename]_%03d.png 
 ffmpeg -ss 00:10 -i [video-filename].mp4 -t 00:03 [images-filename]_%03d.jpg
@@ -115,7 +112,11 @@ where
 %03d - indicated to use 3 digits number. 
 
 For example, the output will be like this: 
-images-filename_001d.png images-filename_002d.png images-filename_003d.png To have have all the tools to make GIF animations from images and videos, save this playlist
+images-filename_001d.png 
+images-filename_002d.png 
+images-filename_003d.png 
+
+To have have all the tools to make GIF animations from images and videos, save this playlist
 
 # =============================================================
 # = MODIFICATION TAILLE IMG's GRAPHIC-MAGICK     [GRAPHIC]
@@ -343,13 +344,13 @@ Trouve sur : https://www.techpowerup.com/vgabios/?architecture=NVIDIA&manufactur
 
 MODEL					DATE				VERSION			Iface	Core/Mem/Boost		Memory
 
-Quadro 4000 	  2048 MB	2011-02-15 00:00:00	70.00.56.00.06	PCI-E	475 / 702			    GDDR5
-Quadro 2000     1024 MB	2011-02-16 00:00:00	70.06.31.02.01	PCI-E	626 / 652			    GDDR5
-Quadro FX 3800 	1024 MB	2009-04-21 00:00:00	62.00.66.00.02	PCI-E	600 / 800			    GDDR3
-Quadro FX 5500 	1024 MB	2007-04-17 00:00:00	5.71.22.56.09	  PCI-E	650 / 505			    DDR2
-Quadro K2000 	  2048 MB	2012-09-13 00:00:00	80.07.64.00.05	PCI-E	954 / 1000			  GDDR5
-Quadro K4000 	  3 	 GB	2012-08-13 00:00:00	80.06.19.00.01	PCI-E	811 / 1404 / 811	GDDR5
-Quadro K5000 	  4 	 GB	2012-08-17 00:00:00	80.04.59.00.18	PCI-E	706 / 1350 / 706	GDDR5
+Quadro 4000 	2048 MB	2011-02-15 00:00:00	70.00.56.00.06	PCI-E	475 / 702	        GDDR5
+Quadro 2000     1024 MB	2011-02-16 00:00:00	70.06.31.02.01	PCI-E	626 / 652		GDDR5
+Quadro FX 3800 	1024 MB	2009-04-21 00:00:00	62.00.66.00.02	PCI-E	600 / 800		GDDR3
+Quadro FX 5500 	1024 MB	2007-04-17 00:00:00	5.71.22.56.09	PCI-E	650 / 505		DDR2
+Quadro K2000 	2048 MB	2012-09-13 00:00:00	80.07.64.00.05	PCI-E	954 / 1000		GDDR5
+Quadro K4000 	  3  GB	2012-08-13 00:00:00	80.06.19.00.01	PCI-E	811 / 1404 / 811	GDDR5
+Quadro K5000 	  4  GB	2012-08-17 00:00:00	80.04.59.00.18	PCI-E	706 / 1350 / 706	GDDR5
 
 
 # =======================================================================
