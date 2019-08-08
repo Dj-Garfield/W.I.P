@@ -1,4 +1,54 @@
 # =========================================
+# = Open Files and Open Thread
+# =========================================
+
+depending on OS
+
+Code:
+ptree ( Debian )
+
+Code:
+pstree ( Centos )
+
+Code:
+truss
+tusc
+strace
+---------------------------
+LSOF 
+
+Files opened by processes belonging to a specific user
+		lsof -u [user-name]
+
+list files based on their Internet address
+		lsof -i 4
+
+list files specific to a process
+		lsof -p [PID]
+		lsof -p [^PID] pour afficher tout sauf le PID
+		
+list IDs of processes that have opened a particular file
+		lsof -t [file-name]
+		lsof -t  /lib/i386-linux-gnu/libaudit.so.1.0.0
+		
+limit lsof to a particular directory
+		lsof +D [directory-path]
+		lsof +D  /usr/lib/locale
+
+list open files based on the type of connection (TCP or UDP)
+		lsof -i udp
+
+list Parent PID of processes
+		$ lsof -R
+		To get PPID info for a specific PID, you can run the following command:
+		$ lsof -p [PID] -R
+		For example:
+		$ lsof -p 3 -R
+		
+
+
+
+# =========================================
 # = USING LOG FILES
 # =========================================
 All login attempts are logged to /var/log/auth.log
