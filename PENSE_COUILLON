@@ -1,6 +1,6 @@
-# =========================================
-# = Open Files and Open Thread
-# =========================================
+# =============================================================
+# = Open Files and Open Thread                        [SYS]
+# =============================================================
 
 depending on OS
 
@@ -48,9 +48,9 @@ list Parent PID of processes
 
 
 
-# =========================================
-# = USING LOG FILES
-# =========================================
+# =============================================================
+# = USING LOG FILES                               [SYS]
+# =============================================================
 All login attempts are logged to /var/log/auth.log
 
 Search for brute-force SSH logins:
@@ -65,9 +65,9 @@ srv-admin@server.local :~#/ grep sshd.*Did /var/log/auth.log | less
 
 
 
-# =========================================
-# = CONVERSION VIDEO TO IMG               =
-# =========================================
+# =============================================================
+# = CONVERSION VIDEO TO IMG                 [GRAPHIC]         =
+# =============================================================
 
 If you are interested in making GIF animation, 
 I suggest you watch these two videos,
@@ -95,9 +95,9 @@ where
 For example, the output will be like this: 
 images-filename_001d.png images-filename_002d.png images-filename_003d.png To have have all the tools to make GIF animations from images and videos, save this playlist
 
-# ==========================================
-# = MODIFICATION TAILLE IMG's GRAPHIC-MAGICK
-# ==========================================
+# =============================================================
+# = MODIFICATION TAILLE IMG's GRAPHIC-MAGICK     [GRAPHIC]
+# =============================================================
 
 Redimensionner une image
 
@@ -122,7 +122,7 @@ Assez de blah blah voici donc la commande qui permet de retailler un lot d image
 root@home:~# find /chemin/vers/mon/lot/images/ -type f -name '*.jpg' -exec gm mogrify -resize '640>' {} \;
 
 # =======================================================================
-# = CINELERRA INstallation sur Centos7.6 2019                           =
+# = CINELERRA INstallation sur Centos7.6 2019              [VIDEO]      =
 # =======================================================================
 
 Version Cnelerra = 7
