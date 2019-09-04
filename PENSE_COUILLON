@@ -1,3 +1,12 @@
+# =============================================================
+# = TROUVER une coccurence dans tous les fichiers      [SYS]
+# =============================================================
+
+
+find . -type f -exec grep TEXTE_A_TROUVER {} \;
+
+find depuis . , -f pour fichier, -exec execter une commande , grep pour trouver la pattern, {} sur tous les fichiers trouves , \ fin de la commande exec
+
 
 # =============================================================
 # = SCAN IP Manuel                                     [SYS]
