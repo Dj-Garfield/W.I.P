@@ -1,4 +1,24 @@
 # =============================================================
+# = SNIFFER DE CONNECTION SSH                          [SYS]
+# =============================================================
+
+#! /bin/bash
+ 
+DATE=$(date "+%d-%m-%Y--%Hh%Mm")
+IP=$(echo $SSH_CONNECTION | awk '{print $1}')
+REVERSE=$(dig -x $IP +short)
+HOSTNAME=$(hostname)
+echo "Connexion sur ${HOSTNAME}
+IP :		${IP}
+REVERSE :	${REVERSE}
+Date :		${DATE}
+Utilisateur :	${USER}
+ 
+" | mail -s "Connexion sur ${HOSTNAME}" maildestinataire@domain.tld
+
+
+
+# =============================================================
 # = TROUVER une coccurence dans tous les fichiers      [SYS]
 # =============================================================
 
