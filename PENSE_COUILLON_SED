@@ -96,6 +96,12 @@ Suppression d'une ligne commençant par le mot : football
 sed -i -e '/^football/d' fichier
 Autre chose à savoir parce que bien pratique :
 
-Quand vous modifiez des fichiers il est recommandé de créer un fichier de backup au cas ou :
+il est recommandé de créer un fichier de backup au cas ou :
 
 utiliser l'option -i.bak
+
+si l'on veut fonctionner avec des variable il faut escape le nom de la variable :
+
+toto="bbb";sed 's/^'"$toto"'$//g;/./!d'
+
+
