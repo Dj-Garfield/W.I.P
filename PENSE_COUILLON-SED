@@ -1,0 +1,101 @@
+Simplifions nous la vie d'admin sys avec SED ... 
+
+Un champ est défini par une expression rationnelle identifiée par les balises \( et \)
+
+^ 	correspond au début d'une ligne (juste avant le premier caractère)
+$ 	correspond à la fin d'une ligne (juste après le dernier caractère)
+. 	correspond à n'importe quel caractère unique
+* 	correspond à aucune ou plusieurs occurrences du caractère qui précède
+[ ] 	correspond à n'importe lequel des caractères cités entre les crochets
+&     prend la valeur du contenu du fichier avant modif = contenu fichier traité 
+/./ 	Récupère toutes les lignes contenant au moins un caractère.
+/../ 	Récupère toutes les lignes contenant au moins deux caractères.
+/^#/  Récupère toutes les lignes commençant par un #.
+/^$/  Récupère toutes les lignes vides.
+/}^/   Récupère toutes les lignes finissant par un }.
+/} *^/  Récupère toutes les lignes finissant par un } suivi ou non d'espaces.
+/[abc]/  Récupère toutes les lignes contenant un des caractères a, b ou c.
+/^[abc]/  Récupère toutes les lignes commençant soit par un a, soit un b, soit un c. 
+Parcourir un fichier et afficher que certaines lignes :
+
+sed -n '10,12p' passwd
+new:x:8:12:news:/etc/news:
+ucp:x:13:11:uucp:/var/spool/uucp:/sbin/nologin
+operato:x:10:0:operator:/root:/sbin/nologin
+ici la ligne 10 à 12.
+
+sed -n '1p'
+et la juste la première ligne.
+
+Changer un mot par un autre dans vi avec sed :
+
+:%s/mot/mot1/g
+dans le fichier ouvert tous les "mot" seront remplacés par "mot1"
+
+Si on a besoin de remplacer une chaîne par une autre pour toute une liste de fichiers contenu dans un répertoire, on pourra utiliser ce petit script :
+
+#!/bin/bash
+for file in *.sh
+do
+echo “Traitement de $file …”
+sed -e “s/chaine1/chaine2/g” “$file” > “$file”.tmp && mv -f “$file”.tmp “$file”
+done
+Ce script va afficher la liste de tous les fichiers dont l’extension est .sh et faire le remplacement.
+
+Afficher que les lignes non commentées d'un fichier :
+
+cat fichier.conf | sed -e '/^#.*$/d'
+Exemple ou l'on remplace le répertoire /root par /home :
+
+sed -e "s/\/root/\/home/g" fichier > fichier.tmp && mv -f fichier.tmp fichier 
+Comme vous pouvez le voir vous êtes obligé d'échapper les caractères spéciaux.
+
+Remplacer une chaîne par une autre pour une liste de fichiers dans un répertoire, on pourra utiliser ce petit script shell :
+
+ 
+#!/bin/bash
+for file in *.txt
+do
+echo 'Traitement de $file ...'
+sed -e 's/chaine1/chaine2/g' '$file' > '$file'.tmp && mv -f '$file'.tmp '$file'
+done 
+Mettre tout le contenu d'un fichier en majuscule :
+
+sed -i -e 's/.*/\U&/'
+Mettre tout le contenu d'un fichier en minuscule :
+
+sed -i -e 's/.*/\L&/'
+Ajouter un mot ou plus devant chaque ligne d'un fichier :
+
+sed -e 's/.*/mot ou plus &/' appli
+Ajouter un mot ou plus après chaque ligne d'un fichier :
+
+sed -e 's/.*/& mot ou plus/' appli
+Ajouter enable à la fin de la ligne comprenant le mot arg1 et arg2 :
+
+sed -i -e 's/^\(arg1.*arg2\).*$/&1 enable/g' Fichier.txt
+Afficher la ligne 3 d'un fichier :
+
+sed -n 3p fichier.txt
+Commenter un ligne contenant le mot httpd :
+
+sed -i -e 's/.*httpd.*/#$/g' fichier.txt
+Insérer une nouvelle ligne sous/après une autre :
+
+le fichier contient :
+
+lol
+ola
+mh
+pou
+on insert le mot : client après le mot : ola
+
+sed -i '/ola/a \client' fichier
+Suppression d'une ligne commençant par le mot : football
+
+sed -i -e '/^football/d' fichier
+Autre chose à savoir parce que bien pratique :
+
+Quand vous modifiez des fichiers il est recommandé de créer un fichier de backup au cas ou :
+
+utiliser l'option -i.bak
