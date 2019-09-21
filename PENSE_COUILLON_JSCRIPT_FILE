@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <script langauge="javascript">
+            var counter = 0;
+            window.setInterval("refreshDiv()", 5000);
+            function refreshDiv(){
+                counter = counter + 1;
+                document.getElementById("test").innerHTML = "Testing " + counter;
+            }
+        </script>
+    </head>
+    <body>
+        <div id="test">
+            Testing
+        </div>
+        <div id="staticBlock">
+            This is a static block
+        </div>
+    </body>
+</html>
+
+Counter Increment Working GReat !!!!
