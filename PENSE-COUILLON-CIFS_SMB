@@ -1,0 +1,15 @@
+POUR le montage sur le NAS le level CIFS est 2.1 pour Windows 7 / Freenas 11.1
+
+mount -t cifs -o username=srv-admin,vers=2.1 //192.168.1.15/DEV-FS /mnt/NAS
+
+POUR le montage sur la FREEBOX
+
+mount -t cifs //192.168.1.254/"Disque dur" /mnt/FREEBOX/ -o username=srv-admin
+
+
+Pour info les vers a jouter lors du montae , et verifier sur le servr quelle version 
+
+SMB 2.0 was introduced by Vista/2008
+SMB 2.1 by Win7/2008R2
+SMB 2.2 aka 3.0 by Win8/2012
+SMB 3.02 by 8.1/2012R2
