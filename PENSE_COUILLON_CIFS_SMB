@@ -13,12 +13,3 @@ SMB 2.0 was introduced by Vista/2008
 SMB 2.1 by Win7/2008R2
 SMB 2.2 aka 3.0 by Win8/2012
 SMB 3.02 by 8.1/2012R2
-
-
-mount -t cifs -o username=srv-admin,password=chau25l1970,vers=2.1 //192.168.1.15/DATAS /mnt/DATAS
-mount -t cifs -o username=srv-admin,password=chau25l1970,vers=2.1 //192.168.1.15/DEV-FS /mnt/DEV
-mount -t cifs -o username=srv-admin,password=chau25l1970,vers=2.1 //192.168.1.15/GRAPHIC-FS /mnt/GRAPHIC
-mount -t cifs -o username=srv-admin,password=chau25l1970,vers=2.1 //192.168.1.15/MUZIK-FS /mnt/MUZIK
-mount -t cifs -o username=srv-admin,password=chau25l1970,vers=2.1 //192.168.1.15/PHOTOS-FS /mnt/PHOTOS
-mount -t cifs -o username=srv-admin,password=chau25l1970,vers=2.1 //192.168.1.15/VIDEOS-FS /mnt/VIDEOS
-mount -t cifs //192.168.1.254/"Disque dur" /mnt/FREEBOX/ -o username=srv-admin,password=chau25l1970
