@@ -1,4 +1,5 @@
-Using systemd you should be able to run a script as a daemon by creating a simple unit. There are a lot of different options you can add but this is about as simple as you can get.
+Using systemd you should be able to run a script as a daemon by creating a simple unit. 
+There are a lot of different options you can add but this is about as simple as you can get.
 
 Say you have a script /usr/bin/mydaemon.
 
