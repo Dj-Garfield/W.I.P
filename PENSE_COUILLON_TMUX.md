@@ -1,16 +1,23 @@
-## Beginning With tmux
+# Beginning With tmux
 
 The first thing you should know is that Ctrl+b is the default prefix in tmux. It means that running any command requires typing in the prefix first. As you probably have guessed, this is to avoid conflicts with key combinations used in other programs run in the terminal.
 
-# Here is a list of a few basic tmux commands:
+## Here is a list of a few basic tmux commands:
 
  Ctrl+b " — split pane horizontally.
+ 
  Ctrl+b % — split pane vertically.
+ 
  Ctrl+b arrow key — switch pane.
+ 
 Hold Ctrl+b, don’t release it and hold one of the arrow keys — resize pane.
+
  Ctrl+b c — (c)reate a new window.
+ 
  Ctrl+b n — move to the (n)ext window.
+ 
  Ctrl+b p — move to the (p)revious window.
+ 
 Other thing worth knowing is that scrolling is enabled by pressing Ctrl+b PgUp/PgDown. In fact, it enables the copy mode, which can also be done by pressing Ctrl+b [. When in copy mode, you can use PgUp/PgDown and arrow keys to scroll through the terminal contents. To (q)uit the copy mode, simply press the q key.
 
 That should do the trick. At least, most of it.
