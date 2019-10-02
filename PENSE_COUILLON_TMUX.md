@@ -10,7 +10,7 @@ The first thing you should know is that Ctrl+b is the default prefix in tmux. It
  
  Ctrl+b arrow key — switch pane.
  
-Hold Ctrl+b, don’t release it and hold one of the arrow keys — resize pane.
+### Hold Ctrl+b, don’t release it and hold one of the arrow keys — resize pane.
 
  Ctrl+b c — (c)reate a new window.
  
