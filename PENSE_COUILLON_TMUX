@@ -1,9 +1,4 @@
 # Beginning With tmux
-To start tmux, simply type tmux in your terminal and press Return. This is what a tmux session may look like:
-
-tmux
-
-By reading this section, you’ll get to know how to use tmux to split terminal window into panes and how to use multiple windows. This will let you do 90% of your work.
 
 The first thing you should know is that Ctrl+b is the default prefix in tmux. It means that running any command requires typing in the prefix first. As you probably have guessed, this is to avoid conflicts with key combinations used in other programs run in the terminal.
 
