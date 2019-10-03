@@ -38,7 +38,11 @@
     }
 
 ?>
+Cette Methode fonctionne aussi en encadrant dans un tableau ou Div Rows etc etc 
+===============================================================================
 
+Basic test :
+============
 
 # COMPTEUR DIV REFRESH
 <html>
@@ -63,3 +67,5 @@
 </html>
 
 Counter Increment Working GReat !!!!
+
+
