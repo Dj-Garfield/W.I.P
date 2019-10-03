@@ -1,3 +1,48 @@
+# UPDATE PLAYLIST FROM PHP
+==========================
+
+## Dans le HEAD :
+==============
+    <script type="text/javascript">
+        var auto_refresh = setInterval(
+            function() {
+                $('#playlist').load('pl-gen.php').fadeIn("slow");
+            }, 1000);
+    </script>
+
+## La ou est la DIV :
+==================
+
+<div id="playlist">Wait for the Playlist ... </div>
+
+## La page PHP Gen :
+=================
+
+<?php
+
+// Nom du fichier à ouvrir
+    $fichier = file("playlist.txt");
+// Nombre total de ligne du fichier
+    $total = count($fichier);
+
+//    for($i = 0; $i < $total; $i++) {
+//    On affiche ligne par ligne le contenu du fichier
+//    avec la fonction nl2br pour ajouter les sauts de lignes
+//    echo nl2br($fichier[$i]);
+//    }
+// OU en ayant les numéros de ligne et l'ajout des sauts de lignes
+//
+// Affiche toute les lignes du tableau
+// avec les numéros de ligne
+
+    foreach ($fichier as $line_num => $line) {
+        echo "Track #<b>{$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+    }
+
+?>
+
+
+# COMPTEUR DIV REFRESH
 <html>
     <head>
         <script langauge="javascript">
