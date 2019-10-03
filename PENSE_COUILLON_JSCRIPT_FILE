@@ -2,8 +2,8 @@
 ==========================
 
 ## Dans le HEAD :
-==============
-    <script type="text/javascript">
+
+<script type="text/javascript">
         var auto_refresh = setInterval(
             function() {
                 $('#playlist').load('pl-gen.php').fadeIn("slow");
@@ -11,12 +11,10 @@
     </script>
 
 ## La ou est la DIV :
-==================
 
 <div id="playlist">Wait for the Playlist ... </div>
 
 ## La page PHP Gen :
-=================
 
 <?php
 
