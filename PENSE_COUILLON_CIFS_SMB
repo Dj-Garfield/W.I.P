@@ -4,8 +4,10 @@
 
 MOUNT FOR ANY CIFS/SMB SHARES Windows 7 / Freenas 11.1
 ======================================================
+Read Only
 mount -t cifs //192.168.1.254/"Disque dur" /mnt/FREEBOX/ -o username=[USER],password=[PASSWORD],ro,vers=[VERSION]
-
+Read Write
+sudo mount -t cifs //nas-server/cifsShare /mnt/share -o username=xx,iocharset=utf8,file_mode=0777,dir_mode=0777,soft,user,noperm
 
 MOUNT FOR FREEBOX
 =================
