@@ -1,0 +1,12 @@
+Bootable USB Key to Net install DEBIAN Distro
+
+Get the ISO File from Debian ( here is the debian-10.1.0 )
+
+Check if USB key is connected : lsblk
+
+sdd               8:48   1  14,4G  0 disk 
+└─sdd1            8:49   1  14,4G  0 part
+
+wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.1.0-amd64-netinst.iso
+
+sudo dd bs=4M if=/path/to/debian-10.1.0-amd64-netinst.iso of=/dev/sdd status=progress oflag=sync
