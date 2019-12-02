@@ -1355,6 +1355,75 @@ ALEA.ENTRE.BORNES(20; 30)
     renvoie un nombre entier entre 20 et 30 (inclus). 
 
 
+
+# =============================================================
+# = LS Tips                                              [SYS]
+# =============================================================
+
+Lister les fichiers et sous-répertoires du répertoire en cours :
+
+ls
+
+Lister les fichiers et répertoires d’une manière plus détaillée :
+
+ls -lsha
+
+Détail des options passées en paramètres :
+
+l :
+s :
+h : Donne la taille des fichiers en megaoctets (human readable) un ls avec affichage détaillé + taille des fichiers + unités human readable
+a :
+Paginer le nombre de résultats affichés par une commande :
+
+Si une commande affiche un trop grand nombre de résultats on peut les afficher par pages à l’aide de | less. Il faut alors utiliser la barre d’espace pour passer à la page suivante des résultats et on utilise la touche Q pour "quitter" la liste des résultats.
+
+ls -lsha | less
+
+Lister l’espace disque libre en fonction des partitions :
+
+df -h
+
+L’option -h indique à la commande de donner ses résultats de manière lisible par l’homme (human readable) en megaoctets et non pas en octets
+
+Connaître la taille d’un répertoire et de ses sous-répertoires :
+
+du -sh /chemin/du/repertoire
+
+L’option -h est la même que dans la commande précédente.
+L’option -s indique à la commande de ne sortir qu’un seul résultat global et non la taille que chaque fichier qui est le comportement par défaut.
+Une autre commande qui peut servir régulièrement consiste à connaitre le nombre de fichiers et répertoires que contient un répertoire. Il n’existe pas de commande Linux spécifique à cette opération on utilisera donc un commande comme celle-ci :
+
+ls -1A |wc -l
+
+Quelques explications nécessaires :
+Dans un premier temps on liste les fichiers et répertoires contenus dans le repertoire en cours en utilisant la commande ls en affichant un fichier par ligne (option "-1") et en affichant tous les fichiers y compris les fichiers cachés (option "-A").
+Dans un second temps on utilise le résultat de cette commande que l’on va traiter par une autre, c’est le role du pipe ("|") qui signifie que l’on lance une seconde commande sur le résultat de la première
+Dans un troisième temps, on utilise la commande wc (qui compte les résultat) sur le résultat du ls en ne comptant que les lignes (option "-l").
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ========================================================================CRON==============================================================
 Often cron failures are due to environment issues. For security the environment that cron provides is not the same as the user\'s environment. There is an easy fix that also happens to be a best practice for all scripting.
 Always provide the full path to any external commands inside your scripts.
