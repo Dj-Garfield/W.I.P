@@ -10,3 +10,4 @@ sdd               8:48   1  14,4G  0 disk
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.1.0-amd64-netinst.iso
 
 sudo dd bs=4M if=/path/to/debian-10.1.0-amd64-netinst.iso of=/dev/sdd status=progress oflag=sync
+
