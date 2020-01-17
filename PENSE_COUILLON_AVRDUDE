@@ -1,0 +1,21 @@
+Needed Program called avrdude to upload the binary onto the target, 
+and modify the parameters according to the board setup and target:
+
+mcu=atmega8
+f_cpu=16000000
+format=ihex
+rate=19200
+port=/dev/ttyusb0
+programmer=stk500
+target_file=test.hex
+
+avrdude -F -p $mcu -P $port -c $programmer -b $rate -U flash:w:$target_file
+Installing avrdude:
+
+sudo apt-get install avrdude 
+
+Also there is a comprehensive Makefile that you could use to build and upload to your Arduino which again 
+uses the similar avrdude commands to upload to the target. After changing the parameters in the Makefile, 
+run make upload to upload the hex file to the target.
+
+NOTE: Need to have gcc-avr and avr-libc packages installed to build the binaries 
