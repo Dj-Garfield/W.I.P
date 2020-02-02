@@ -1,0 +1,32 @@
+Compteur avec capteur effet Hall , sur une PIN Interrupt ( la 12 par ex ).
+A afiner avec Rise pour le front montant.
+En déclarant la variable etatprec dans la fonctions toutes les conditions sont faites avec etatprec =0.
+
+Tant que l'aimant est devant le capteur, la première condition fera que etatfinal =1 tout le temps.
+Lorsque le capteur n'est plus devant l'aimant, la seconde condition sera toujours ignorée puisque 
+etatprec (étant déclaré =0 ) ne vaudra jamais 1. La fonction renvoie la valeur assignée lors de la 
+déclaration de etatfinal, c-à-d par défaut 0, et ce tant que l'aimant n'est plus devant le capteur.
+ 
+
+Dans ce cas il faut faire un attachInterrupt( pinCaptHall, function_qui_increment_le_servo, RISING ); 
+et choisir un pin compatible (voir la doc Arduino).
+
+Cette fonction est asynchrone ,de fait ,le passage de l'aimant sera toujours détecté même si le 
+microcontrôleur est monopolisé par une autre tâche. Avec une fonction comme ci-dessus, donc non 
+asynchrone, si le code est en pause (delay) ou monopolizé par une tâche il n’appellera pas la fonction 
+et peut ne pas voir l'aimant passer.
+
+int fonctioncompteur(void){
+  int captHall=12;
+  int etatpresent,etatfinal,etatprec=0;
+
+  etatpresent=digitalRead(captHall);
+  if(etatpresent==1 && etatprec==0){
+    etatfinal=1;
+    etatprec=1;
+  }
+  else if(etatpresent==0 && etatprec==1){
+    etatfinal=0;
+    etatprec=0;
+  }
+  return etatfinal;
