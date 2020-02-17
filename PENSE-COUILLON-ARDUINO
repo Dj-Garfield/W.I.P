@@ -1,4 +1,22 @@
-Compteur avec capteur effet Hall , sur une PIN Interrupt ( la 12 par ex ).
+-----------------------------------------------------------------------
+- NOT WORKING COMPLETELY                                 [HEX DECOMPIL]
+-----------------------------------------------------------------------
+
+avr-objdump -j .sec1 -d -m avr5 foo.hex 
+You will have to change the words following the "-m" to your architecture. 
+Even when/if this works it will give you the Assembly code, 
+which might not look anything you have ever written. 
+The variable names will different, and the handy Arduino functions 
+will look like messy Assembly junk. I hope there is a better way, sorry.
+
+See also AVR GCC forum - Using avr-objdump to disassemble hex code.
+
+
+-----------------------------------------------------------------------
+-                                                  [COMPTEUR-INTERRUPT]
+-----------------------------------------------------------------------
+# Compteur avec capteur effet Hall 
+Sur une PIN Interrupt ( la 12 par ex ).
 A afiner avec Rise pour le front montant.
 En déclarant la variable etatprec dans la fonctions toutes les conditions sont faites avec etatprec =0.
 
