@@ -12,3 +12,6 @@ wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.1.0-amd
 sudo dd bs=4M if=/path/to/debian-10.1.0-amd64-netinst.iso of=/dev/sdd status=progress oflag=sync
 
 And for sure man dd for further informations or tips.
+
+2020-05-11 : 
+Last Debian Release https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.4.0-amd64-netinst.iso
