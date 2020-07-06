@@ -26,8 +26,6 @@ Fichier interfaces :
 
 > auto enp0s25.200
 
-> Allow-hotplug
-
 > iface enp0s25.200 inet static
 
 > address 172.17.1.1
