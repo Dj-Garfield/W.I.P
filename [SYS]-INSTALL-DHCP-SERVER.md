@@ -1,5 +1,5 @@
-#Installation Serveur DHCP Debian 10 + Routage
-##Serveur avec 2 interfaces 
+# Installation Serveur DHCP Debian 10 + Routage
+##S erveur avec 2 interfaces 
 
 enp4s0 => WAN , Client DHCP depuis la BOX ( 192.168.1.0/24 )
 
@@ -9,11 +9,11 @@ Le LAN est dans un VLAN ID : 200
 enp0s25.200 => LAN Ip Fixe sur 172.17.1.0/24
 
 
-##On declare les IFACES dans /etc/network/interfaces
+## On declare les IFACES dans /etc/network/interfaces
 
 Fichier interfaces :
 
-# The loopback network interface
+#The loopback network interface
 auto lo
 iface lo inet loopback
 
@@ -28,14 +28,15 @@ netmask 255.255.255.0
 up service isc-dhcp-server restart
 
 
-##On configure le service DHCP Pour l'interface enp0s25.200
+## On configure le service DHCP Pour l'interface enp0s25.200
 
 1/ dans /usr/share/isc-dhcp-server il faut preciser sur quelle IFACE ecoutera le service :
 
 /etc/default/isc-dhcp-server
 
-# On what interfaces should the DHCP server (dhcpd) serve DHCP requests?
-#       Separate multiple interfaces with spaces, e.g. "eth0 eth1".
+## Ajouter
+#On what interfaces should the DHCP server (dhcpd) serve DHCP requests?
+#Separate multiple interfaces with spaces, e.g. "eth0 eth1".
 INTERFACESv4="enp0s25.200"
 INTERFACESv6=""
 
@@ -63,11 +64,11 @@ option routers 172.17.1.1;
 
 tail -f /var/log/syslog
 
-##faire un tri et voir juste les actions du serveur dhcp (le démon dhcpd) :
+## faire un tri et voir juste les actions du serveur dhcp (le démon dhcpd) :
 
 grep dhcpd /var/log/syslog
 
-##connaitre la liste des machines auquel votre serveur DHCP a attribué une adresse (information détaillé Nom, adresse IP, adresse Mac) il suffit de lire le fichier.
+## connaitre la liste des machines auquel votre serveur DHCP a attribué une adresse (information détaillé Nom, adresse IP, adresse Mac) il suffit de lire le fichier.
 
 cat /var/lib/dhcp/dhcpd.leases | more
 
