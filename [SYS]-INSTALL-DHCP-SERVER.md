@@ -36,8 +36,11 @@ Fichier interfaces :
 
 ## Ajouter l'interface supportant le service DHCP dans INTERFACESv4
 > #On what interfaces should the DHCP server (dhcpd) serve DHCP requests?
+
 > #Separate multiple interfaces with spaces, e.g. "eth0 eth1".
+
 > INTERFACESv4="enp0s25.200"
+
 > INTERFACESv6=""
 
 
@@ -74,18 +77,18 @@ Fichier interfaces :
 =======================================================
 ## voir les logs
 
-tail -f /var/log/syslog
+> tail -f /var/log/syslog
 
 ## faire un tri et voir juste les actions du serveur dhcp (le démon dhcpd) :
 
-grep dhcpd /var/log/syslog
+> grep dhcpd /var/log/syslog
 
 ## connaitre la liste des machines auquel votre serveur DHCP a attribué une adresse (information détaillé Nom, adresse IP, adresse Mac) il suffit de lire le fichier.
 
-cat /var/lib/dhcp/dhcpd.leases | more
+> cat /var/lib/dhcp/dhcpd.leases | more
 
 ou
 
-cat /var/lib/dhcp/dhcpd.leases 
+> cat /var/lib/dhcp/dhcpd.leases 
 
 # Routage entre les deux Interfaces
