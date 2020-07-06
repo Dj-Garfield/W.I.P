@@ -1,0 +1,24 @@
+apt install ehttool
+
+
+1. Show current speed, duplex, and link status:
+
+   ethtool eth0
+
+2. Change speed, duplex, autoneg:
+
+Example: 100Mbps half duplex, no autonegotiation:
+
+   ethtool -s eth0 speed 100 duplex half autoneg off
+
+Example: Autonegotiation with full advertisement:
+
+   ethtool -s eth0 autoneg on
+
+Example: Autonegotiation with 100Mbps full duplex advertisement only:
+
+   ethtool -s eth0 speed 100 duplex full autoneg on
+
+3. Show flow control settings:
+
+   ethtool -a eth0
