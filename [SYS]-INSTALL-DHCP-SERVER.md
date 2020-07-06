@@ -34,7 +34,9 @@ Fichier interfaces :
 
 > up service isc-dhcp-server restart
 
+Redemarrage du service networking pour valider la conf.
 
+> systemctl restart networking
 
 ### On configure le service DHCP Pour l'interface enp0s25.200
 
@@ -81,6 +83,11 @@ Fichier interfaces :
 > option routers 172.17.1.1;
 
 > }
+
+On redemarre le service isc-dhcp-server pour valider la conf 
+
+> service isc-dhcp-server restart
+
 
 =======================================================
 ### voir les logs
