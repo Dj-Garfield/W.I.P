@@ -1,5 +1,5 @@
 # Installation Serveur DHCP Debian 10 + Routage
-##S erveur avec 2 interfaces 
+## Serveur avec 2 interfaces 
 
 enp4s0 => WAN , Client DHCP depuis la BOX ( 192.168.1.0/24 )
 
@@ -76,3 +76,4 @@ ou
 
 cat /var/lib/dhcp/dhcpd.leases 
 
+# Routage entre les deux Interfaces
