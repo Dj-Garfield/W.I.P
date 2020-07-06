@@ -46,17 +46,29 @@ Fichier interfaces :
 > cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak , pour garder la config originale
 
 > option domain-name "eplkt.net";
+
 > option domain-name-servers 192.168.1.254;       #Ip de la BOX ou d'un serveur DNS sur le Reseau
+
 > default-lease-time 86400;
+
 > max-lease-time 604800;
+
 > ddns-update-style none;
+
 > log-facility local7;
+
 > authoritative;
+
 > subnet 172.17.1.0 netmask 255.255.255.0 {
+
 > range 172.17.1.10 172.17.1.150;                 #L'interface cote LAN a comme IP 172.17.1.1, il ne faut pas que le Range contienne cette adresse
+
 > option subnet-mask 255.255.255.0;
+
 > option broadcast-address 172.17.1.255;
+
 > option routers 172.17.1.1;
+
 > }
 
 =======================================================
