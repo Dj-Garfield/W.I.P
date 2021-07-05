@@ -1,0 +1,103 @@
+##################################################################
+# FINAL CHANGELOG For CHARTING DATAS TEMps Humidity ...          #
+##################################################################
+
+Folders :
+
+192.168.XX.YY APACHE | PHP7.4.
+ESP01-1/-INDEX.PHP => DATA POST CAPTURE
+       |
+       \-PROBES
+       |
+       \-SCRIPTS
+       |
+       \-JS
+       |
+       \-CSS
+       |
+       \-CSV => date csv Format ;
+        						Date,TempS1,TempS1,TempS3
+								07/12/2009 12:34:00,62,42,61
+
+Folders:
+########
+
+/home/srv-admin/DEV_LoRaWAN/0-ARDUINO_ESP01_TESTS/V4.0.1_FREE_CHART/WEBDEV => LN -S vers /var/www/html/ESP01-1
+|
+\-WEBDEV
+ \
+  \-scripts
+  |-js
+  |-css
+
+
+CODE SRC INDEX :
+################
+
+
+<?php 
+$device = $_GET['device'];
+$temp = $_GET['temp'];
+$hum = $_GET['hum']; 
+$file = "eplkt_probe_s1.csv";
+$today = date("Y/m/d-H_m_s"); 
+$Saved_File = fopen($file, 'a'); 
+fwrite($Saved_File, $today.",".$device.",".$temp.",".$hum."\r\n"); 
+fclose($Saved_File); 
+echo "Date ".$today." | Device ".$device." | Temp ".$temp." | Humidite ".$hum; // For debugging this send Payload to the ESP01
+?>
+
+
+CODE SRC ARDUINO ESP8266:
+#########################
+
+/* This sketch sends data via HTTP GET requests to esp8266-shop.com and returns the website in html format which is printed on the console */ 
+#include <ESP8266WiFi.h> 
+const char* ssid = " SSID"; //replace with your own wifi ssid 
+const char* password = "5tR0N9P4s5W0rD"; //replace with your own //wifi ssid password 
+const char* host = "192.168.1.7"; // Or FQDN
+void setup() { Serial.begin(115200); 
+delay(10); // We start by connecting to a WiFi network Serial.println();
+Serial.println(); Serial.print("Connecting to ");
+Serial.println(ssid);
+/* Explicitly set the ESP8266 to be a WiFi-client, otherwise, it by default, would try to act as both a client and an access-point and could cause network-issues with your other WiFi-devices on your WiFi-network. */
+WiFi.mode(WIFI_STA);
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED)
+{
+delay(500);
+Serial.print(".");
+}
+Serial.println("");
+Serial.println("WiFi connected"); Serial.println("IP address: "); Serial.println(WiFi.localIP()); } int value = 0; void loop() { delay(5000); ++value; Serial.print("connecting to ");
+Serial.println(host); // Use WiFiClient class to create TCP connections
+WiFiClient client;
+const int httpPort = 3480;
+if (!client.connect(host, httpPort)) {
+Serial.println("connection failed");
+return;
+}
+// We now create a URI for the request
+//this url contains the informtation we want to send to the server
+//if esp8266 only requests the website, the url is empty
+String url = "/ESP01/index.php";
+url += "?dev=";
+url += "100";
+url += "&tmp=";
+url += "200";
+url += "&humi=";
+url += "300";
+
+Serial.print("Requesting URL: ");
+Serial.println(url); // This will send the request to the server
+client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
+unsigned long timeout = millis();
+while (client.available() == 0) {
+if (millis() - timeout > 5000)
+{ Serial.println(">>> Client Timeout !");
+client.stop(); return; } } // Read all the lines of the reply from server and print them to Serial
+while (client.available())
+{ String line = client.readStringUntil('\r'); Serial.print(line);
+}
+Serial.println();
+Serial.println("closing connection"); }
